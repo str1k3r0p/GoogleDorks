@@ -48,7 +48,7 @@ Experience the live application here: [Google Dorks Generator](https://str1k3r0p
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/advanced-dork-generator.git
+git clone https://github.com/str1k3r0p/GoogleDorks.git
 ```
 
 2. Open `index.html` in your web browser. No additional setup or dependencies required.
@@ -127,9 +127,7 @@ This tool is provided for educational and research purposes only. Users are resp
 ## Author
 
 [Your Name]
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Website: [your-website.com](https://your-website.com)
-
+- GitHub: [@str1k3r0p](https://github.com/str1k3e0p)
 ## Acknowledgments
 
 - Google Search operators documentation
