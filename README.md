@@ -88,18 +88,10 @@ git clone https://github.com/str1k3r0p/GoogleDorks.git
 - Legal personal research
 
 Do NOT use this tool for:
-- Unauthorized security testing
 - Privacy violations
 - Malicious data collection
 - Any illegal activities
 
-## Technical Details
-
-### Technologies Used
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- No external dependencies or frameworks required
 
 ### Browser Compatibility
 - Chrome
@@ -126,7 +118,6 @@ This tool is provided for educational and research purposes only. Users are resp
 
 ## Author
 
-[Your Name]
 - GitHub: [@str1k3r0p](https://github.com/str1k3e0p)
 ## Acknowledgments
 
