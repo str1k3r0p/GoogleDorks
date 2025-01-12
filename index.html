@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Dorks Generator for Bug Bounty</title>
+    <title>Advanced Dork Generator</title>
     <style>
-        /* General Reset */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -15,9 +14,8 @@
         }
 
         header {
-            background-color: #1b5e20;
-            color: #ffffff;
             padding: 15px 0;
+            background: linear-gradient(90deg, #1b5e20 50%, #1a237e 50%);
         }
 
         h1 {
@@ -25,98 +23,197 @@
             font-size: 28px;
         }
 
-        main {
+        .mode-switcher {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .mode-button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .mode-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .bug-bounty-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .people-search-btn {
+            background-color: #3f51b5;
+            color: white;
+        }
+
+        .mode-button.active {
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tool-section {
+            display: none;
             padding: 20px;
+        }
+
+        .tool-section.active {
+            display: block;
         }
 
         .input-group {
             margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         input[type="text"] {
             padding: 10px;
             width: 300px;
-            border: 2px solid #4caf50;
             border-radius: 4px;
             outline: none;
+            background-color: #2d2d2d;
+            color: #ffffff;
         }
 
-        input[type="text"]:focus {
-            border-color: #66bb6a;
+        .bug-bounty-section input[type="text"] {
+            border: 2px solid #4caf50;
+        }
+
+        .people-search-section input[type="text"] {
+            border: 2px solid #3f51b5;
         }
 
         button {
             padding: 10px 20px;
             margin: 10px;
-            background-color: #d32f2f;
-            color: #ffffff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #b71c1c;
+        .bug-bounty-section button {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .people-search-section button {
+            background-color: #3f51b5;
+            color: white;
         }
 
         .results {
             margin-top: 20px;
             text-align: left;
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .category {
+            margin-bottom: 40px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+        }
+
+        .bug-bounty-section .category {
+            border: 1px solid #4caf50;
+        }
+
+        .people-search-section .category {
+            border: 1px solid #3f51b5;
+        }
+
         .results h3 {
-            color: #66bb6a;
             margin-top: 20px;
             margin-bottom: 10px;
         }
 
+        .bug-bounty-section .results h3 {
+            color: #66bb6a;
+        }
+
+        .people-search-section .results h3 {
+            color: #5c6bc0;
+        }
+
         .results a {
-            color: #ff5252;
             text-decoration: none;
             display: block;
             margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        .bug-bounty-section .results a {
+            color: #ff5252;
+        }
+
+        .people-search-section .results a {
+            color: #90caf9;
         }
 
         .results a:hover {
             text-decoration: underline;
+            background-color: #1e1e1e;
         }
 
         footer {
             margin-top: 40px;
             padding: 10px;
-            background-color: #1b5e20;
+            background: linear-gradient(90deg, #1b5e20 50%, #1a237e 50%);
             color: #ffffff;
-        }
-
-        .category {
-            margin-bottom: 40px;
-            border: 1px solid #4caf50;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #1e1e1e;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Google Dork Generator</h1>
+        <h1>Advanced Dork Generator</h1>
     </header>
+
+    <div class="mode-switcher">
+        <button class="mode-button bug-bounty-btn active" onclick="switchMode('bug-bounty')">Bug Bounty Dorks</button>
+        <button class="mode-button people-search-btn" onclick="switchMode('people-search')">People Search Dorks</button>
+    </div>
+
     <main>
-        <div class="input-group">
-            <input type="text" id="domain" placeholder="Enter valid domain (e.g., example.com)">
-            <button onclick="generateDorks()">Generate Dorks</button>
+        <!-- Bug Bounty Section -->
+        <div id="bug-bounty-section" class="tool-section bug-bounty-section active">
+            <div class="input-group">
+                <input type="text" id="domain" placeholder="Enter valid domain (e.g., example.com)">
+                <button onclick="generateBugBountyDorks()">Generate Bug Bounty Dorks</button>
+            </div>
+            <div class="results" id="bug-bounty-results"></div>
         </div>
-        <div class="results" id="results"></div>
+
+        <!-- People Search Section -->
+        <div id="people-search-section" class="tool-section people-search-section">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Enter full name (e.g., John Smith)">
+                <input type="text" id="email" placeholder="Email (optional)">
+                <input type="text" id="location" placeholder="Location (optional)">
+                <button onclick="generatePeopleSearchDorks()">Generate People Search Dorks</button>
+            </div>
+            <div class="results" id="people-search-results"></div>
+        </div>
     </main>
+
     <footer>
-        <b>© Developed by VoidCygnus </b>
-        <p> Google Dorks Generator. All rights reserved.</p>
+        <p>Advanced Dork Generator - Bug Bounty & People Search</p>
     </footer>
+
     <script>
-        const dorks = {
+        // Include your existing dorks objects here
+        const bugBountyDorks = {
             "File Types": [
                 "site:{domain} filetype:pdf",
                 "site:{domain} filetype:doc",
@@ -339,8 +436,7 @@
                 "site:pastebin.com \"{domain}\"",
                 "site:jsfiddle.net \"{domain}\"",
                 "site:codebeautify.org \"{domain}\"",
-                "site:codepen.io \"{domain}\""
-            ],
+                "site:codepen.io \"{domain}\""],
             "Cloud Storage": [
                 "site:s3.amazonaws.com \"{domain}\"",
                 "site:blob.core.windows.net \"{domain}\"",
@@ -380,14 +476,143 @@
             ]
         };
 
+        const peopleSearchDorks = {
+            "Advanced Email Discovery": [
+                "\"{name}\" (email OR mail OR contact) -template",
+                "\"{name}\" intext:@gmail.com OR intext:@yahoo.com OR intext:@hotmail.com",
+                "\"{name}\" + \"email\" + \"contact\" filetype:pdf OR filetype:doc OR filetype:txt",
+                "intext:\"{name}\" intext:\"@\" before:2024 after:2020",
+                "\"{name}\" mailto:",
+                "\"{email}\" OR \"{name}\" intext:email ext:txt OR ext:csv OR ext:pdf"
+            ],
+            "Deep Personal Info": [
+                "\"{name}\" (resume OR CV OR curriculum OR education OR biography) filetype:pdf",
+                "\"{name}\" (address OR \"phone number\" OR contact OR email) -template",
+                "\"{name}\" intitle:\"about me\" OR intitle:\"biography\" OR intitle:\"profile\"",
+                "\"{name}\" intext:birthday OR intext:\"born in\" OR intext:\"born on\"",
+                "\"{name}\" (hometown OR \"lives in\" OR \"based in\" OR \"located in\")",
+                "\"{name}\" \"family\" OR \"married\" OR \"children\" OR \"spouse\" site:newspaper.com OR site:legacy.com"
+            ],
+            "Financial & Business": [
+                "\"{name}\" (CEO OR founder OR owner OR partner OR director) site:bloomberg.com OR site:reuters.com",
+                "\"{name}\" (investment OR investor OR shareholder OR stake) site:sec.gov",
+                "\"{name}\" site:companieshouse.gov.uk OR site:opencorporates.com",
+                "\"{name}\" (salary OR compensation OR bonus) site:salary.com OR site:glassdoor.com",
+                "\"{name}\" (net worth OR assets OR property) site:forbes.com OR site:wsj.com",
+                "\"{name}\" intext:\"board member\" OR intext:\"executive\" filetype:pdf"
+            ],
+            "Dark Web & Leaks": [
+                "site:pastebin.com \"{email}\" OR \"{name}\"",
+                "site:ghostbin.co \"{email}\" OR \"{name}\"",
+                "site:github.com \"{email}\" OR \"{name}\" filename:passwords OR filename:credentials",
+                "site:leak-lookup.com \"{email}\" OR \"{name}\"",
+                "intext:\"{email}\" site:paste.* OR site:*leak*",
+                "\"{name}\" (username OR user OR account) site:reddit.com OR site:github.com"
+            ],
+            "Advanced Social Media": [
+                "site:facebook.com \"{name}\" \"{location}\" -site:facebook.com/public",
+                "site:twitter.com \"{name}\" OR from:\"{name}\" until:2024 since:2010",
+                "site:instagram.com \"{name}\" (bio OR profile) \"{location}\"",
+                "\"{name}\" site:tiktok.com OR site:snapchat.com",
+                "\"{name}\" (account OR profile) site:*.com intext:social",
+                "site:linkedin.com/in/ \"{name}\" \"{location}\""
+            ],
+            "Legal & Court Records": [
+                "\"{name}\" site:courtlistener.com OR site:caselaw.findlaw.com",
+                "\"{name}\" (lawsuit OR litigation OR court OR legal OR arrest) site:news.*",
+                "\"{name}\" filetype:pdf site:*.gov intext:court",
+                "\"{name}\" site:mugshots.com OR site:arrests.org",
+                "\"{name}\" (conviction OR sentenced OR pleaded) site:justice.gov",
+                "\"{name}\" intext:\"case number\" OR intext:\"docket\" site:*.gov"
+            ],
+            "Deep Academic": [
+                "\"{name}\" site:academia.edu filetype:pdf",
+                "\"{name}\" (thesis OR dissertation) site:proquest.com",
+                "\"{name}\" author:* site:scholar.google.com",
+                "\"{name}\" site:researchgate.net intext:publication",
+                "\"{name}\" (professor OR researcher OR faculty) site:*.edu",
+                "\"{name}\" site:arxiv.org OR site:citeseerx.ist.psu.edu"
+            ],
+            "Advanced Property": [
+                "\"{name}\" site:property.* OR site:zillow.com OR site:trulia.com",
+                "\"{name}\" (property OR house OR address) site:whitepages.com",
+                "\"{name}\" intext:\"property records\" OR intext:\"tax assessment\"",
+                "\"{name}\" site:blockshopper.com OR site:propertyshark.com",
+                "\"{name}\" \"real estate\" OR \"property owner\" filetype:pdf",
+                "\"{name}\" (address OR residence) site:*.gov"
+            ],
+            "Digital Footprints": [
+                "\"{name}\" (username OR user OR account) site:github.com OR site:gitlab.com",
+                "\"{name}\" inurl:profile OR inurl:user OR inurl:about",
+                "\"{name}\" site:archive.org",
+                "\"{name}\" (forum OR community OR member) site:reddit.com",
+                "\"{name}\" intext:\"joined\" OR intext:\"member since\"",
+                "site:*/about \"{name}\" OR site:*/profile \"{name}\""
+            ],
+            "Professional Speaking": [
+                "\"{name}\" (speaker OR presenter OR keynote) site:conference.*",
+                "\"{name}\" site:slideshare.net OR site:speakerdeck.com",
+                "\"{name}\" intext:\"conference speaker\" OR intext:\"event speaker\"",
+                "\"{name}\" (panel OR webinar OR seminar) filetype:pdf",
+                "\"{name}\" site:youtube.com intext:\"conference\" OR intext:\"talk\"",
+                "\"{name}\" site:eventbrite.com OR site:meetup.com speaker"
+            ],
+            "Telecommunications": [
+                "\"{name}\" intext:\"phone number\" OR intext:\"mobile\" OR intext:\"contact\"",
+                "\"{name}\" site:whitepages.com OR site:411.com",
+                "\"{name}\" (phone OR contact OR reach) -template",
+                "\"{name}\" site:phonebook.* OR site:directory.*",
+                "\"{name}\" intext:\"contact information\" filetype:pdf OR filetype:doc",
+                "\"{name}\" site:*/contact OR site:*/directory"
+            ],
+            "Historical Records": [
+                "\"{name}\" site:ancestry.com OR site:genealogy.com",
+                "\"{name}\" (birth OR death OR marriage) site:familysearch.org",
+                "\"{name}\" site:newspapers.com date:1900-2024",
+                "\"{name}\" (obituary OR death) site:legacy.com",
+                "\"{name}\" site:findagrave.com OR site:familytree.com",
+                "\"{name}\" \"family history\" OR genealogy filetype:pdf"
+            ],
+            "Medical & Healthcare": [
+                "\"{name}\" site:healthgrades.com OR site:doctor.webmd.com",
+                "\"{name}\" (doctor OR physician OR surgeon OR dentist) site:*.edu",
+                "\"{name}\" intext:\"medical license\" OR intext:\"board certified\"",
+                "\"{name}\" site:hospital.* OR site:clinic.*",
+                "\"{name}\" (medical OR health OR practice) filetype:pdf",
+                "\"{name}\" site:*/provider OR site:*/doctor"
+            ],
+            "Advanced Location": [
+                "\"{name}\" \"{location}\" -template site:local.*",
+                "\"{name}\" (lives OR resides OR based) near:\"{location}\"",
+                "\"{name}\" \"{location}\" site:neighbors.* OR site:nextdoor.com",
+                "\"{name}\" (address OR location OR based) \"{location}\" filetype:pdf",
+                "\"{name}\" \"{location}\" site:local.yahoo.com OR site:patch.com",
+                "\"{name}\" (resident OR citizen) \"{location}\""
+            ]
+        };
+
+        function switchMode(mode) {
+            // Update button states
+            document.querySelectorAll('.mode-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.${mode}-btn`).classList.add('active');
+
+            // Update section visibility
+            document.querySelectorAll('.tool-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`${mode}-section`).classList.add('active');
+
+            // Clear results
+            document.getElementById('bug-bounty-results').innerHTML = '';
+            document.getElementById('people-search-results').innerHTML = '';
+        }
+
         function isValidDomain(domain) {
             const domainRegex = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}\/?$/i;
             return domainRegex.test(domain);
         }
 
-        function generateDorks() {
+        function generateBugBountyDorks() {
             const domainInput = document.getElementById('domain').value.trim();
-            const resultsDiv = document.getElementById('results');
+            const resultsDiv = document.getElementById('bug-bounty-results');
             resultsDiv.innerHTML = '';
 
             if (!isValidDomain(domainInput)) {
@@ -395,9 +620,9 @@
                 return;
             }
 
-            const domain = domainInput.replace(/https?:\/\//, '').replace(/\/.*$/, ''); // Extract domain
+            const domain = domainInput.replace(/https?:\/\//, '').replace(/\/.*$/, '');
 
-            for (const category in dorks) {
+            for (const category in bugBountyDorks) {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category';
                 
@@ -405,17 +630,53 @@
                 categoryHeader.textContent = category;
                 categoryDiv.appendChild(categoryHeader);
 
-                dorks[category].forEach(dork => {
+                bugBountyDorks[category].forEach(dork => {
                     const query = dork.replace(/{domain}/g, domain);
                     const link = document.createElement('a');
                     
-                    // Check if the dork is for crt.sh to open it directly
                     if (query.startsWith("https://crt.sh")) {
-                        link.href = query; // Directly use the crt.sh link
+                        link.href = query;
                     } else {
                         link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
                     }
                     
+                    link.textContent = query;
+                    link.target = '_blank';
+                    categoryDiv.appendChild(link);
+                });
+
+                resultsDiv.appendChild(categoryDiv);
+            }
+        }
+
+        function generatePeopleSearchDorks() {
+            const nameInput = document.getElementById('name').value.trim();
+            const emailInput = document.getElementById('email').value.trim();
+            const locationInput = document.getElementById('location').value.trim();
+            const resultsDiv = document.getElementById('people-search-results');
+            resultsDiv.innerHTML = '';
+
+            if (nameInput.length < 3) {
+                alert('Please enter a valid name!');
+                return;
+            }
+
+            for (const category in peopleSearchDorks) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                
+                const categoryHeader = document.createElement('h3');
+                categoryHeader.textContent = category;
+                categoryDiv.appendChild(categoryHeader);
+
+                peopleSearchDorks[category].forEach(dork => {
+                    let query = dork
+                        .replace(/{name}/g, nameInput)
+                        .replace(/{email}/g, emailInput || nameInput)
+                        .replace(/{location}/g, locationInput || "");
+                        
+                    const link = document.createElement('a');
+                    link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
                     link.textContent = query;
                     link.target = '_blank';
                     categoryDiv.appendChild(link);
