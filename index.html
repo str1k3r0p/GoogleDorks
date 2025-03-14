@@ -3,688 +3,1984 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Dork Generator</title>
+    <title>Google Dorks - Bug Bounty Dork Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-green: #00ff99;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff00ff;
+            --neon-blue: #00bfff;
+            --neon-yellow: #ffff00;
+            --neon-red: #ff3131;
+            --neon-orange: #ff9900;
+            --dark-bg: #0c1016;
+            --darker-bg: #0a0e14;
+            --nav-bg: #080c12;
+            --card-bg: #111824;
+            --card-bg-alt: #14131c;
+            --text-color: #e0e0e0;
+            --subtitle-color: #8a8a8a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* High-tech grid background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
+                linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background-color: var(--nav-bg);
+            padding: 15px 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        
+        /* Navbar scan line effect */
+        .navbar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
+            opacity: 0.4;
+            animation: scanline 4s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            position: relative;
+        }
+        
+        /* Digital distortion effect */
+        .logo::before {
+            content: "Google Dorks";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--neon-purple);
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+            animation: glitch 3s infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0, 0); opacity: 0.3; }
+            91% { transform: translate(-2px, 1px); opacity: 0.5; }
+            92% { transform: translate(2px, -1px); opacity: 0.7; }
+            93% { transform: translate(-1px, -1px); opacity: 0.5; }
+            94% { transform: translate(1px, 1px); opacity: 0.3; }
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--subtitle-color);
+            margin-top: -5px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 5px 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        
+        .nav-links a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--neon-cyan);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        
+        .nav-links a.active::before {
+            width: 100%;
+            height: 2px;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dork-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        /* Cybersecurity badge corners */
+        .dork-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-top: 2px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-cyan);
+            border-top-left-radius: 7px;
+            z-index: 1;
+        }
+        
+        .dork-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-bottom: 2px solid var(--neon-cyan);
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom-right-radius: 7px;
+            z-index: 1;
+        }
+        
+        /* Digital matrix effect */
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0.05;
+        }
+        
+        .matrix-line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: var(--neon-green);
+            opacity: 0.5;
+            top: 0;
+            animation: matrixRain linear infinite;
+        }
+        
+        @keyframes matrixRain {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+        
+        .section-title {
             text-align: center;
+            color: var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            z-index: 2;
         }
-
-        header {
-            padding: 15px 0;
-            background: linear-gradient(90deg, #1b5e20 50%, #1a237e 50%);
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
         }
-
-        h1 {
-            margin: 0;
-            font-size: 28px;
+        
+        .input-container {
+            position: relative;
+            margin-bottom: 25px;
+            z-index: 2;
         }
-
-        .mode-switcher {
-            margin: 20px 0;
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            color: var(--text-color);
+            font-size: 1rem;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-cyan);
+            z-index: 2;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        /* Input scan line animation */
+        .input-scan {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--neon-cyan);
+            opacity: 0.5;
+            z-index: 0;
+            animation: scanInput 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes scanInput {
+            0%, 100% { left: 0; opacity: 0.5; }
+            50% { left: 100%; opacity: 0.8; }
+        }
+        
+        .buttons-container {
             display: flex;
             justify-content: center;
             gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
         }
-
-        .mode-button {
-            padding: 15px 30px;
-            font-size: 16px;
+        
+        .btn {
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
+            color: #111;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .mode-button:hover {
-            transform: translateY(-2px);
-        }
-
-        .bug-bounty-btn {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        .people-search-btn {
-            background-color: #3f51b5;
-            color: white;
-        }
-
-        .mode-button.active {
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-
-        .tool-section {
-            display: none;
-            padding: 20px;
-        }
-
-        .tool-section.active {
-            display: block;
-        }
-
-        .input-group {
-            margin: 20px 0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 1px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--neon-cyan);
+        }
+        
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+        
+        .btn span {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .btn i {
+            position: relative;
+            z-index: 2;
+            font-size: 1.2rem;
+        }
+        
+        .btn:hover::before {
+            animation: sheen 1s forwards;
+        }
+        
+        @keyframes sheen {
+            0% {
+                transform: rotate(45deg) translateY(0);
+            }
+            100% {
+                transform: rotate(45deg) translateY(200%);
+            }
+        }
+        
+        .btn-bounty {
+            background-color: var(--neon-cyan);
+        }
+        
+        .btn-bounty:hover {
+            background-color: #00d8d8;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+        
+        .loading-container {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cyber-loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+        
+        .cyber-loader::before,
+        .cyber-loader::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--neon-cyan);
+            animation: cyber-spin 1.5s linear infinite;
+        }
+        
+        .cyber-loader::after {
+            border-top-color: transparent;
+            border-left-color: var(--neon-cyan);
+            animation-duration: 1s;
+        }
+        
+        @keyframes cyber-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .loading-text::after {
+            content: "...";
+            position: absolute;
+            animation: dots 1.5s infinite;
+            width: 24px;
+            text-align: left;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40%, 60% { content: ".."; }
+            80%, 100% { content: "..."; }
+        }
+        
+        .results-container {
+            margin-top: 40px;
+            display: none;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .results-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border-radius: 4px;
-            outline: none;
-            background-color: #2d2d2d;
-            color: #ffffff;
+        
+        .results-title i {
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
         }
-
-        .bug-bounty-section input[type="text"] {
-            border: 2px solid #4caf50;
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
-
-        .people-search-section input[type="text"] {
-            border: 2px solid #3f51b5;
+        
+        .dork-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
-
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .bug-bounty-section button {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        .people-search-section button {
-            background-color: #3f51b5;
-            color: white;
-        }
-
-        .results {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .category {
-            margin-bottom: 40px;
+        
+        .category-container {
+            background-color: rgba(10, 14, 20, 0.7);
+            border-radius: 6px;
             padding: 15px;
-            border-radius: 5px;
-            background-color: #1e1e1e;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.05);
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
-
-        .bug-bounty-section .category {
-            border: 1px solid #4caf50;
+        
+        .category-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
-
-        .people-search-section .category {
-            border: 1px solid #3f51b5;
+        
+        /* Category type indicator */
+        .category-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--category-color), transparent);
+            opacity: 0.8;
         }
-
-        .results h3 {
-            margin-top: 20px;
-            margin-bottom: 10px;
+        
+        .category-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            padding-left: 15px;
         }
-
-        .bug-bounty-section .results h3 {
-            color: #66bb6a;
+        
+        .category-title i {
+            font-size: 1.2rem;
         }
-
-        .people-search-section .results h3 {
-            color: #5c6bc0;
+        
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            position: relative;
         }
-
-        .results a {
-            text-decoration: none;
+        
+        .category-badge::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 1px;
+            background: linear-gradient(45deg, var(--category-color), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBadge 3s linear infinite;
+        }
+        
+        @keyframes rotateBadge {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .category-badge i {
+            color: var(--category-color);
+            font-size: 1rem;
+        }
+        
+        .category-title span {
+            position: relative;
+            z-index: 1;
+            color: var(--category-color);
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(var(--category-shadow), 0.5);
+        }
+        
+        .dork-count {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--category-color);
+            border: 1px solid rgba(var(--category-shadow), 0.3);
+        }
+        
+        .dork-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 5px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--category-color) rgba(0, 0, 0, 0.2);
+        }
+        
+        .dork-links::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .dork-links::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .dork-links::-webkit-scrollbar-thumb {
+            background-color: var(--category-color);
+            border-radius: 10px;
+        }
+        
+        .dork-link {
             display: block;
-            margin: 5px 0;
-            padding: 5px;
-            border-radius: 3px;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 20px 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-left: 2px solid rgba(var(--category-shadow), 0.3);
+            position: relative;
         }
-
-        .bug-bounty-section .results a {
-            color: #ff5252;
+        
+        .dork-link:hover {
+            background-color: rgba(var(--category-shadow), 0.1);
+            color: var(--category-color);
+            border-left: 2px solid var(--category-color);
+            padding-left: 15px;
         }
-
-        .people-search-section .results a {
-            color: #90caf9;
+        
+        /* Category Color Variants */
+        .category-access {
+            --category-color: var(--neon-red);
+            --category-shadow: 255, 49, 49;
         }
-
-        .results a:hover {
-            text-decoration: underline;
-            background-color: #1e1e1e;
+        
+        .category-sensitive {
+            --category-color: var(--neon-orange);
+            --category-shadow: 255, 153, 0;
         }
-
-        footer {
-            margin-top: 40px;
-            padding: 10px;
-            background: linear-gradient(90deg, #1b5e20 50%, #1a237e 50%);
-            color: #ffffff;
+        
+        .category-files {
+            --category-color: var(--neon-yellow);
+            --category-shadow: 255, 255, 0;
+        }
+        
+        .category-exposure {
+            --category-color: var(--neon-purple);
+            --category-shadow: 188, 19, 254;
+        }
+        
+        .category-injection {
+            --category-color: var(--neon-pink);
+            --category-shadow: 255, 0, 255;
+        }
+        
+        .category-cloud {
+            --category-color: var(--neon-blue);
+            --category-shadow: 0, 191, 255;
+        }
+        
+        .category-auth {
+            --category-color: var(--neon-green);
+            --category-shadow: 0, 255, 153;
+        }
+        
+        .category-misc {
+            --category-color: var(--neon-cyan);
+            --category-shadow: 0, 255, 255;
+        }
+        
+        /* Developer section */
+        #about-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .developer-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        @media (min-width: 992px) {
+            .developer-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .developer-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            height: 100%;
+        }
+        
+        .developer-card.founder {
+            background-color: var(--card-bg);
+        }
+        
+        .developer-card.contributor {
+            background-color: var(--card-bg-alt);
+        }
+        
+        /* Cyberpunk line patterns */
+        .developer-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(0, 255, 255, 0.05), transparent 40%),
+                linear-gradient(to right, rgba(188, 19, 254, 0.05), transparent),
+                radial-gradient(circle at bottom right, rgba(0, 255, 153, 0.05), transparent 60%);
+            z-index: 0;
+        }
+        
+        /* Circuit board pattern */
+        .developer-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 50px 50px;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .developer-card.founder::after {
+            background-image: 
+                radial-gradient(circle at 25px 25px, var(--neon-cyan) 1px, transparent 1px),
+                linear-gradient(to right, transparent 23px, var(--neon-cyan) 1px, transparent 26px),
+                linear-gradient(to bottom, transparent 23px, var(--neon-cyan) 1px, transparent 26px);
+        }
+        
+        .developer-card.contributor::after {
+            background-image: 
+                radial-gradient(circle at 25px 25px, var(--neon-green) 1px, transparent 1px),
+                linear-gradient(to right, transparent 23px, var(--neon-green) 1px, transparent 26px),
+                linear-gradient(to bottom, transparent 23px, var(--neon-green) 1px, transparent 26px);
+        }
+        
+        /* Cybersecurity corner accents */
+        .developer-card .corner-tl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-top: 2px solid;
+            border-left: 2px solid;
+            border-top-left-radius: 7px;
+        }
+        
+        .developer-card .corner-br {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+            border-bottom-right-radius: 7px;
+        }
+        
+        .developer-card.founder .corner-tl,
+        .developer-card.founder .corner-br {
+            border-color: var(--neon-cyan);
+        }
+        
+        .developer-card.contributor .corner-tl,
+        .developer-card.contributor .corner-br {
+            border-color: var(--neon-green);
+        }
+        
+        .dev-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dev-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .dev-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .dev-avatar::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .founder .dev-avatar::before {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+        }
+        
+        .contributor .dev-avatar::before {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+        }
+        
+        .dev-avatar-inner {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(30, 41, 59, 1), rgba(17, 24, 39, 1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dev-avatar i {
+            font-size: 32px;
+        }
+        
+        .founder .dev-avatar i {
+            color: var(--neon-cyan);
+        }
+        
+        .contributor .dev-avatar i {
+            color: var(--neon-green);
+        }
+        
+        .dev-title {
+            flex: 1;
+        }
+        
+        .dev-title h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .founder .dev-title h3 {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .contributor .dev-title h3 {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 153, 0.3);
+        }
+        
+        .dev-title .dev-role {
+            font-weight: 500;
+            color: var(--text-color);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .dev-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0, 255, 255, 0.2), transparent);
+            margin: 15px 0;
+        }
+        
+        .contributor .dev-divider {
+            background: linear-gradient(to right, transparent, rgba(0, 255, 153, 0.2), transparent);
+        }
+        
+        .dev-description {
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        
+        .dev-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .skill-tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .founder .skill-tag {
+            background-color: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: var(--neon-cyan);
+        }
+        
+        .founder .skill-tag:hover {
+            background-color: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+        }
+        
+        .contributor .skill-tag {
+            background-color: rgba(0, 255, 153, 0.1);
+            border: 1px solid rgba(0, 255, 153, 0.3);
+            color: var(--neon-green);
+        }
+        
+        .contributor .skill-tag:hover {
+            background-color: rgba(0, 255, 153, 0.15);
+            box-shadow: 0 0 8px rgba(0, 255, 153, 0.3);
+        }
+        
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 1px;
+            background: linear-gradient(45deg, var(--neon-cyan), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .contributor .social-link::before {
+            background: linear-gradient(45deg, var(--neon-green), transparent);
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+        
+        .founder .social-link:hover {
+            color: var(--neon-cyan);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .contributor .social-link:hover {
+            color: var(--neon-green);
+            box-shadow: 0 5px 15px rgba(0, 255, 153, 0.2);
+        }
+        
+        .social-link:hover::before {
+            opacity: 1;
+        }
+        
+        /* Data breach animation */
+        .data-breach {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        
+        .data-breach::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 255, 0.5) 70%);
+            animation: pulse 2s infinite;
+        }
+        
+        .contributor .data-breach::before {
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 153, 0.5) 70%);
+        }
+        
+        .data-breach i {
+            font-size: 18px;
+        }
+        
+        .founder .data-breach i {
+            color: var(--neon-cyan);
+        }
+        
+        .contributor .data-breach i {
+            color: var(--neon-green);
+        }
+        
+        .about-title-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        
+        .about-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .about-title-container::before {
+            content: "10010110 01101001 10011001";
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--neon-cyan);
+            opacity: 0.2;
+            letter-spacing: 2px;
+        }
+        
+        .about-title-container::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .dork-sections {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 15px 1rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .dev-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .developer-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .dork-sections {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Advanced Dork Generator</h1>
-    </header>
-
-    <div class="mode-switcher">
-        <button class="mode-button bug-bounty-btn active" onclick="switchMode('bug-bounty')">Bug Bounty Dorks</button>
-        <button class="mode-button people-search-btn" onclick="switchMode('people-search')">People Search Dorks</button>
-    </div>
-
-    <main>
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo">Google Dorks</div>
+            <div class="tagline">Bug Bounty Dork Generator</div>
+        </div>
+        <div class="nav-links">
+            <a href="#" id="home-link" class="active">Home</a>
+            <a href="#" id="bug-bounty-link">Bug Bounty</a>
+            <a href="#" id="about-link">About Developers</a>
+        </div>
+    </nav>
+    
+    <div class="container">
         <!-- Bug Bounty Section -->
-        <div id="bug-bounty-section" class="tool-section bug-bounty-section active">
-            <div class="input-group">
-                <input type="text" id="domain" placeholder="Enter valid domain (e.g., example.com)">
-                <button onclick="generateBugBountyDorks()">Generate Bug Bounty Dorks</button>
+        <div id="bug-bounty-section" class="dork-card">
+            <!-- Digital Matrix Background -->
+            <div class="matrix-bg" id="matrix-background">
+                <!-- Generated dynamically with JS -->
             </div>
-            <div class="results" id="bug-bounty-results"></div>
-        </div>
-
-        <!-- People Search Section -->
-        <div id="people-search-section" class="tool-section people-search-section">
-            <div class="input-group">
-                <input type="text" id="name" placeholder="Enter full name (e.g., John Smith)">
-                <input type="text" id="email" placeholder="Email (optional)">
-                <input type="text" id="location" placeholder="Location (optional)">
-                <button onclick="generatePeopleSearchDorks()">Generate People Search Dorks</button>
+            
+            <h2 class="section-title">BUG BOUNTY DORK GENERATOR</h2>
+            
+            <div class="input-container">
+                <i class="fas fa-globe input-icon"></i>
+                <input type="text" id="domain-input" class="input-field" placeholder="Enter domain (e.g., example.com)">
+                <div class="input-scan"></div>
             </div>
-            <div class="results" id="people-search-results"></div>
+            
+            <div class="buttons-container">
+                <button class="btn btn-bounty" onclick="generateBugBountyDorks()">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Generate Bug Bounty Dorks</span>
+                </button>
+            </div>
+            
+            <div id="loading" class="loading-container">
+                <div class="cyber-loader"></div>
+                <div class="loading-text">Generating vulnerability dorks</div>
+            </div>
+            
+            <div id="results" class="results-container">
+                <h3 class="results-title">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>Bug Bounty Dorks for: <span id="domain-display"></span></span>
+                </h3>
+                <div id="results-content" class="dork-sections"></div>
+            </div>
         </div>
-    </main>
-
-    <footer>
-        <p>Advanced Dork Generator - Bug Bounty & People Search</p>
-    </footer>
-
+        
+        <!-- About Developer Section -->
+        <div id="about-section">
+            <div class="about-title-container">
+                <h2 class="about-title">THE SECURITY TEAM</h2>
+            </div>
+            
+            <div class="developer-cards">
+                <!-- Founder Profile -->
+                <div class="developer-card founder">
+                    <div class="corner-tl"></div>
+                    <div class="corner-br"></div>
+                    <div class="data-breach">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    
+                    <div class="dev-content">
+                        <div class="dev-header">
+                            <div class="dev-avatar">
+                                <div class="dev-avatar-inner">
+                                    <i class="fas fa-user-secret"></i>
+                                </div>
+                            </div>
+                            <div class="dev-title">
+                                <h3>NeXus</h3>
+                                <div class="dev-role">Founder & Lead Security Researcher</div>
+                            </div>
+                        </div>
+                        
+                        <div class="dev-divider"></div>
+                        
+                        <div class="dev-description">
+                            <p>A veteran in cybersecurity with over a decade of experience exposing vulnerabilities in high-profile systems. I specialize in discovering zero-day exploits and have responsibly disclosed critical security flaws to major tech companies across the globe.</p>
+                            <p>My approach combines advanced automation with creative manual techniques to uncover security issues that conventional methods often miss. I've developed several custom vulnerability assessment tools that have revolutionized how security teams approach threat detection.</p>
+                            <p>As an active participant in the security community, I regularly contribute to open-source security projects and mentor emerging ethical hackers. My research has been featured at prestigious security conferences including DEF CON, Black Hat, and OWASP Global AppSec.</p>
+                        </div>
+                        
+                        <div class="dev-skills">
+                            <span class="skill-tag">Zero-Day Research</span>
+                            <span class="skill-tag">Advanced Exploit Development</span>
+                            <span class="skill-tag">Red Team Operations</span>
+                            <span class="skill-tag">Reverse Engineering</span>
+                            <span class="skill-tag">Threat Intelligence</span>
+                            <span class="skill-tag">Cloud Security</span>
+                            <span class="skill-tag">Binary Analysis</span>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-hackerrank"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contributor Profile -->
+                <div class="developer-card contributor">
+                    <div class="corner-tl"></div>
+                    <div class="corner-br"></div>
+                    <div class="data-breach">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    
+                    <div class="dev-content">
+                        <div class="dev-header">
+                            <div class="dev-avatar">
+                                <div class="dev-avatar-inner">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                            </div>
+                            <div class="dev-title">
+                                <h3>Cipher</h3>
+                                <div class="dev-role">Co-Author & Security Engineer</div>
+                            </div>
+                        </div>
+                        
+                        <div class="dev-divider"></div>
+                        
+                        <div class="dev-description">
+                            <p>A specialist in web application security and API vulnerabilities with expertise in automated security testing and DevSecOps integration. I've helped secure critical infrastructure for Fortune 500 companies and government agencies through innovative security solutions.</p>
+                            <p>My approach focuses on developing efficient methodologies that blend security with development workflows, allowing organizations to implement "security as code" principles. I've built several automated scanning frameworks that detect complex vulnerabilities in modern web architectures.</p>
+                            <p>I'm passionate about knowledge sharing and have authored comprehensive security guides that bridge the gap between theoretical concepts and practical implementation. My contributions to bug bounty platforms have helped identify and remediate numerous critical vulnerabilities.</p>
+                        </div>
+                        
+                        <div class="dev-skills">
+                            <span class="skill-tag">Web App Security</span>
+                            <span class="skill-tag">API Security Testing</span>
+                            <span class="skill-tag">DevSecOps</span>
+                            <span class="skill-tag">OSINT Techniques</span>
+                            <span class="skill-tag">Secure Code Review</span>
+                            <span class="skill-tag">Automation</span>
+                            <span class="skill-tag">Bug Bounty</span>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fas fa-book"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-medium"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // Include your existing dorks objects here
-        const bugBountyDorks = {
-            "File Types": [
-                "site:{domain} filetype:pdf",
-                "site:{domain} filetype:doc",
-                "site:{domain} filetype:docx",
-                "site:{domain} filetype:xls",
-                "site:{domain} filetype:xlsx",
-                "site:{domain} filetype:ppt",
-                "site:{domain} filetype:pptx",
-                "site:{domain} filetype:txt",
-                "site:{domain} filetype:csv",
-                "site:{domain} filetype:zip",
-                "site:{domain} filetype:tar",
-                "site:{domain} filetype:gz",
-                "site:{domain} filetype:sql",
-                "site:{domain} filetype:bak"
-            ],
-            "Admin Panels": [
-                "site:{domain} inurl:admin",
-                "site:{domain} inurl:login",
-                "site:{domain} inurl:dashboard",
-                "site:{domain} inurl:wp-admin",
-                "site:{domain} inurl:controlpanel"
-            ],
-            "Sensitive Info": [
-                "site:{domain} \"password\"",
-                "site:{domain} \"config\"",
-                "site:{domain} \"credentials\"",
-                "site:{domain} \"secret\"",
-                "site:{domain} \"api_key\""
-            ],
-            "Directory Listing": [
-                "site:{domain} intitle:\"index of\"",
-                "site:{domain} inurl:ftp",
-                "site:{domain} inurl:uploads"
-            ],
-            "Exposed Configuration Files": [
-                "site:{domain} \"config.php\"",
-                "site:{domain} \"settings.py\"",
-                "site:{domain} \"database.yml\"",
-                "site:{domain} \"web.config\""
-            ],
-            "Exposed Database Files": [
-                "site:{domain} \"database.sql\"",
-                "site:{domain} \"db_backup.zip\"",
-                "site:{domain} \"backup.sql\""
-            ],
-            "Find WordPress": [
-                "site:{domain} inurl:wp-admin",
-                "site:{domain} inurl:wp-content",
-                "site:{domain} inurl:wp-includes"
-            ],
-            "Exposed Log Files": [
-                "site:{domain} \"error.log\"",
-                "site:{domain} \"access.log\"",
-                "site:{domain} \"logs\""
-            ],
-            "Backup and Old Files": [
-                "site:{domain} \"backup.zip\"",
-                "site:{domain} \"old_version.tar.gz\"",
-                "site:{domain} \"previous_version.tar\""
-            ],
-            "Login Pages": [
-                "site:{domain} inurl:login",
-                "site:{domain} inurl:signin",
-                "site:{domain} inurl:authenticate"
-            ],
-            "SQL Errors": [
-                "site:{domain} \"You have an error in your SQL syntax\"",
-                "site:{domain} \"Warning: mysql_connect()\""
-            ],
-            "Publicly Exposed Documents": [
-                "site:{domain} filetype:docx",
-                "site:{domain} filetype:xlsx",
-                "site:{domain} filetype:pdf",
-                "site:{domain} filetype:pptx"
-            ],
-            "phpinfo()": [
-                "site:{domain} \"phpinfo()\""
-            ],
-            "Finding Backdoors": [
-                "site:{domain} \"backdoor\"",
-                "site:{domain} \"shell.php\""
-            ],
-            "Install / Setup Files": [
-                "site:{domain} \"setup.php\"",
-                "site:{domain} \"install.php\"",
-                "site:{domain} \"install/index.php\""
-            ],
-            "Open Redirects": [
-                "site:{domain} inurl:redirect"
-            ],
-            "Apache STRUTS RCE": [
-                "site:{domain} \"struts.action\""
-            ],
-            "Find Pastebin Entries": [
-                "site:pastebin.com {domain}"
-            ],
-            "Employees on LINKEDIN": [
-                "site:linkedin.com/in {domain}"
-            ],
-            ".htaccess Sensitive Files": [
-                "site:{domain} \"htaccess\""
-            ],
-            "Find Subdomains": [
-                "site:*.{domain}"
-            ],
-            "Find Sub-Subdomains": [
-                "site:*.*.{domain}"
-            ],
-            "Find WordPress #2": [
-                "site:{domain} inurl:wp-json"
-            ],
-            "Find WordPress [Wayback Machine]": [
-                "site:archive.org/web/{domain}"
-            ],
-            "Search in GITHUB": [
-                "site:github.com {domain}"
-            ],
-            "Search in OpenBugBounty": [
-                "site:openbugbounty.org {domain}"
-            ],
-            "Search in Reddit": [
-                "site:reddit.com {domain}"
-            ],
-            "Test CrossDomain": [
-                "site:{domain} \"crossdomain.xml\""
-            ],
-            "Check in ThreatCrowd": [
-                "site:threatcrowd.org {domain}"
-            ],
-            "Find .SWF file (Google)": [
-                "site:{domain} filetype:swf"
-            ],
-            "Find .SWF file (Yandex)": [
-                "site:{domain} filetype:swf site:yandex.com"
-            ],
-            "Search SWF in WayBack Machine": [
-                "site:archive.org/web filetype:swf {domain}"
-            ],
-            "Search in WayBack Machine #2": [
-                "site:archive.org/web/ {domain}"
-            ],
-            "Search in WayBack Machine #3": [
-                "site:archive.org/web/{domain} /*"
-            ],
-            "Search in WayBack Machine [List/All]": [
-                "site:archive.org/web/{domain} "
-            ],
-            "Check in crt.sh": [
-                "https://crt.sh/?q=%25.{domain}" // Corrected to open directly
-            ],
-            "Check in CENSYS": [
-                "site:censys.io {domain}"
-            ],
-            "Search in SHODAN": [
-                "site:shodan.io {domain}"
-            ],
-            "PHP Extension w/ Parameters": [
-                "site:{domain} ext:php inurl:?"
-            ],
-            "API Endpoints": [
-                "site:{domain} inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3"
-            ],
-            "Juicy Extensions": [
-                "site:\"{domain}\" ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess | ext:json"
-            ],
-            "High % inurl Keywords": [
-                "inurl:conf | inurl:env | inurl:cgi | inurl:bin | inurl:etc | inurl:root | inurl:sql | inurl:backup | inurl:admin | inurl:php site:{domain}"
-            ],
-            "Server Errors": [
-                "inurl:\"error\" | intitle:\"exception\" | intitle:\"failure\" | intitle:\"server at\" | inurl:exception | \"database error\" | \"SQL syntax\" | \"undefined index\" | \"unhandled exception\" | \"stack trace\" site:{domain}"
-            ],
-            "XSS Prone Parameters": [
-                "inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:& site:{domain}"
-            ],
-            "Open Redirect Prone Parameters": [
-                "inurl:url= | inurl:return= | inurl:next= | inurl:redirect= | inurl:redir= | inurl:ret= | inurl:r2= | inurl:page= inurl:& inurl:http site:{domain}"
-            ],
-            "SQLi Prone Parameters": [
-                "inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:& site:{domain}"
-            ],
-            "SSRF Prone Parameters": [
-                "inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain= | inurl:page= inurl:& site:{domain}"
-            ],
-            "LFI Prone Parameters": [
-                "inurl:include | inurl:dir | inurl:detail= | inurl:file= | inurl:folder= | inurl:inc= | inurl:locate= | inurl:doc= | inurl:conf= inurl:& site:{domain}"
-            ],
-            "RCE Prone Parameters": [
-                "inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:& site:{domain}"
-            ],
-            "File Upload Endpoints": [
-                "site:{domain} \"choose file\""
-            ],
-            "API Docs": [
-                "inurl:apidocs | inurl:api-docs | inurl:swagger | inurl:api-explorer site:\"{domain}\""
-            ],
-            "Login Pages": [
-                "inurl:login | inurl:signin | intitle:login | intitle:signin | inurl:secure site:{domain}"
-            ],
-            "Test Environments": [
-                "inurl:test | inurl:env | inurl:dev | inurl:staging | inurl:sandbox | inurl:debug | inurl:temp | inurl:internal | inurl:demo site:{domain}"
-            ],
-            "Sensitive Documents": [
-                "site:{domain} ext:txt | ext:pdf | ext:xml | ext:xls | ext:xlsx | ext:ppt | ext:pptx | ext:doc | ext:docx",
-                "intext:\"confidential\" | intext:\"Not for Public Release\" | intext:\"internal use only\" | intext:\"do not distribute\""
-            ],
-            "Sensitive Parameters": [
-                "inurl:email= | inurl:phone= | inurl:password= | inurl:secret= inurl:& site:{domain}"
-            ],
-            "Adobe Experience Manager (AEM)": [
-                "inurl:/content/usergenerated | inurl:/content/dam | inurl:/jcr:content | inurl:/libs/granite | inurl:/etc/clientlibs | inurl:/content/geometrixx | inurl:/bin/wcm | inurl:/crx/de site:{domain}"
-            ],
-            "Disclosed XSS and Open Redirects": [
-                "site:openbugbounty.org inurl:reports intext:\"{domain}\""
-            ],
-            "Google Groups": [
-                "site:groups.google.com \"{domain}\""
-            ],
-            "Code Leaks": [
-                "site:pastebin.com \"{domain}\"",
-                "site:jsfiddle.net \"{domain}\"",
-                "site:codebeautify.org \"{domain}\"",
-                "site:codepen.io \"{domain}\""],
-            "Cloud Storage": [
-                "site:s3.amazonaws.com \"{domain}\"",
-                "site:blob.core.windows.net \"{domain}\"",
-                "site:googleapis.com \"{domain}\"",
-                "site:drive.google.com \"{domain}\"",
-                "site:dev.azure.com \"{domain}\"",
-                "site:onedrive.live.com \"{domain}\"",
-                "site:digitaloceanspaces.com \"{domain}\"",
-                "site:sharepoint.com \"{domain}\"",
-                "site:s3-external-1.amazonaws.com \"{domain}\"",
-                "site:s3.dualstack.us-east-1.amazonaws.com \"{domain}\"",
-                "site:dropbox.com/s \"{domain}\"",
-                "site:box.com/s \"{domain}\"",
-                "site:docs.google.com inurl:\"/d/\" \"{domain}\""
-            ],
-            "JFrog Artifactory": [
-                "site:jfrog.io \"{domain}\""
-            ],
-            "Firebase": [
-                "site:firebaseio.com \"{domain}\""
-            ],
-            "Dorks that work better w/o domain": [
-                "\"submit vulnerability report\" | \"powered by bugcrowd\" | \"powered by hackerone\"",
-                "site:*/security.txt \"bounty\""
-            ],
-            "Apache Server Status Exposed": [
-                "site:*/server-status apache"
-            ],
-            "WordPress": [
-                "inurl:/wp-admin/admin-ajax.php"
-            ],
-            "Drupal": [
-                "intext:\"Powered by\" & intext:Drupal & inurl:user"
-            ],
-            "Joomla": [
-                "site:*/joomla/login"
-            ]
-        };
+        // Enhanced Bug Bounty Dork Categories with visual attributes
+        const bugBountyCategories = [
+            {
+                name: "Admin & Login Pages",
+                icon: "fas fa-user-lock",
+                className: "category-access",
+                dorks: [
+                    "site:{domain} inurl:admin",
+                    "site:{domain} inurl:login",
+                    "site:{domain} inurl:dashboard",
+                    "site:{domain} inurl:wp-admin",
+                    "site:{domain} inurl:controlpanel",
+                    "site:{domain} inurl:adminpanel",
+                    "site:{domain} inurl:administrator",
+                    "site:{domain} inurl:moderator",
+                    "site:{domain} inurl:webadmin",
+                    "site:{domain} inurl:backoffice",
+                    "site:{domain} inurl:backend",
+                    "site:{domain} inurl:auth",
+                    "site:{domain} inurl:portal",
+                    "site:{domain} inurl:staff",
+                    "site:{domain} inurl:manage"
+                ]
+            },
+            {
+                name: "Sensitive Information",
+                icon: "fas fa-key",
+                className: "category-sensitive",
+                dorks: [
+                    "site:{domain} \"password\"",
+                    "site:{domain} \"config\"",
+                    "site:{domain} \"credentials\"",
+                    "site:{domain} \"secret\"",
+                    "site:{domain} \"api_key\"",
+                    "site:{domain} \"private key\"",
+                    "site:{domain} \"client_secret\"",
+                    "site:{domain} \"access_token\"",
+                    "site:{domain} \"dbpassword\"",
+                    "site:{domain} \"authorize\"",
+                    "site:{domain} \"confidential\"",
+                    "site:{domain} \"ssh key\"",
+                    "site:{domain} \"passwd\"",
+                    "site:{domain} \"authorization_bearer\"",
+                    "site:{domain} \"auth_token\"",
+                    "site:{domain} \"oauth_token\"",
+                    "site:{domain} \"token\"",
+                    "site:{domain} \"refresh_token\""
+                ]
+            },
+            {
+                name: "File Types & Documents",
+                icon: "fas fa-file-alt",
+                className: "category-files",
+                dorks: [
+                    "site:{domain} filetype:pdf",
+                    "site:{domain} filetype:doc OR filetype:docx",
+                    "site:{domain} filetype:xls OR filetype:xlsx",
+                    "site:{domain} filetype:ppt OR filetype:pptx",
+                    "site:{domain} filetype:txt",
+                    "site:{domain} filetype:csv",
+                    "site:{domain} filetype:zip OR filetype:rar OR filetype:tar OR filetype:gz",
+                    "site:{domain} filetype:sql",
+                    "site:{domain} filetype:bak",
+                    "site:{domain} filetype:log",
+                    "site:{domain} filetype:xml",
+                    "site:{domain} filetype:json",
+                    "site:{domain} filetype:env",
+                    "site:{domain} filetype:conf",
+                    "site:{domain} filetype:yaml OR filetype:yml",
+                    "site:{domain} filetype:rsa OR filetype:pem OR filetype:key",
+                    "site:{domain} filetype:svg",
+                    "site:{domain} filetype:jsp OR filetype:asp OR filetype:aspx OR filetype:php"
+                ]
+            },
+            {
+                name: "Directory & File Exposure",
+                icon: "fas fa-folder-open",
+                className: "category-exposure",
+                dorks: [
+                    "site:{domain} intitle:\"index of\"",
+                    "site:{domain} inurl:ftp",
+                    "site:{domain} inurl:uploads",
+                    "site:{domain} intext:\"Index of /\"",
+                    "site:{domain} intitle:\"Directory Listing For\"",
+                    "site:{domain} intext:\"Parent Directory\"",
+                    "site:{domain} intitle:\"Index of\" intext:\".env\"",
+                    "site:{domain} intitle:\"Index of\" intext:\"config.php\"",
+                    "site:{domain} intitle:\"Index of\" intext:\"credentials\"",
+                    "site:{domain} intitle:\"Index of /backup\"",
+                    "site:{domain} intitle:\"Index of /admin\"",
+                    "site:{domain} intitle:\"Index of /config\"",
+                    "site:{domain} intitle:\"Index of /database\"",
+                    "site:{domain} intitle:\"Index of /password\"",
+                    "site:{domain} intitle:\"Index of /private\"",
+                    "site:{domain} intitle:\"Index of /wp-content/\"",
+                    "site:{domain} intitle:\"Index of /download\"",
+                    "site:{domain} intitle:\"Index of /logs\""
+                ]
+            },
+            {
+                name: "Configuration Files",
+                icon: "fas fa-cogs",
+                className: "category-sensitive",
+                dorks: [
+                    "site:{domain} \"config.php\"",
+                    "site:{domain} \"settings.py\"",
+                    "site:{domain} \"database.yml\"",
+                    "site:{domain} \"web.config\"",
+                    "site:{domain} inurl:\".env\"",
+                    "site:{domain} inurl:\"wp-config.php\"",
+                    "site:{domain} inurl:\"configuration.php\"",
+                    "site:{domain} inurl:\"settings.json\"",
+                    "site:{domain} inurl:\"config.json\"",
+                    "site:{domain} inurl:\"application.yaml\"",
+                    "site:{domain} inurl:\"config.inc.php\"",
+                    "site:{domain} inurl:\"configuration.xml\"",
+                    "site:{domain} inurl:\"app.config\"",
+                    "site:{domain} inurl:\"application.properties\"",
+                    "site:{domain} inurl:\"appsettings.json\"",
+                    "site:{domain} inurl:\".npmrc\" OR inurl:\".yarnrc\"",
+                    "site:{domain} inurl:\"docker-compose.yml\"",
+                    "site:{domain} inurl:\"Dockerfile\""
+                ]
+            },
+            {
+                name: "API & GraphQL Endpoints",
+                icon: "fas fa-plug",
+                className: "category-auth",
+                dorks: [
+                    "site:{domain} inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3",
+                    "site:{domain} intext:\"api documentation\"",
+                    "site:{domain} inurl:swagger | inurl:api-docs",
+                    "site:{domain} inurl:api/admin",
+                    "site:{domain} inurl:api/users",
+                    "site:{domain} inurl:api/auth",
+                    "site:{domain} inurl:graphql",
+                    "site:{domain} inurl:api.php",
+                    "site:{domain} inurl:api/v1/auth",
+                    "site:{domain} inurl:graphiql",
+                    "site:{domain} inurl:graphql.php",
+                    "site:{domain} inurl:graphql/console",
+                    "site:{domain} \"query {\" \"__schema\"",
+                    "site:{domain} intitle:\"GraphiQL\"",
+                    "site:{domain} inurl:playground",
+                    "site:{domain} inurl:api/token",
+                    "site:{domain} inurl:api/v1/user",
+                    "site:{domain} inurl:api/data",
+                    "site:{domain} inurl:api/password/reset",
+                    "site:{domain} inurl:graphql intext:\"query\" intext:\"mutation\""
+                ]
+            },
+            {
+                name: "Authentication Issues",
+                icon: "fas fa-unlock-alt",
+                className: "category-auth",
+                dorks: [
+                    "site:{domain} intext:\"jwt token\"",
+                    "site:{domain} intext:\"Bearer eyJ\"",
+                    "site:{domain} intext:\"Authorization: Bearer\"",
+                    "site:{domain} inurl:jwt",
+                    "site:{domain} inurl:callback",
+                    "site:{domain} inurl:oauth/authorize",
+                    "site:{domain} inurl:redirect_uri",
+                    "site:{domain} inurl:return_to",
+                    "site:{domain} inurl:oauth/token",
+                    "site:{domain} inurl:client_id",
+                    "site:{domain} inurl:response_type=token",
+                    "site:{domain} inurl:saml",
+                    "site:{domain} inurl:openid",
+                    "site:{domain} inurl:authorize",
+                    "site:{domain} inurl:auth/callback",
+                    "site:{domain} inurl:sso",
+                    "site:{domain} inurl:forgot-password",
+                    "site:{domain} inurl:reset",
+                    "site:{domain} inurl:verify",
+                    "site:{domain} inurl:2fa"
+                ]
+            },
+            {
+                name: "CORS & Header Issues",
+                icon: "fas fa-exchange-alt",
+                className: "category-misc",
+                dorks: [
+                    "site:{domain} intext:\"Access-Control-Allow-Origin: *\"",
+                    "site:{domain} intext:\"Access-Control-Allow-Credentials: true\"",
+                    "site:{domain} intext:\"crossorigin\"",
+                    "site:{domain} intext:\"X-XSS-Protection: 0\"",
+                    "site:{domain} intext:\"Content-Security-Policy\"",
+                    "site:{domain} intext:\"X-Frame-Options: DENY\"",
+                    "site:{domain} intext:\"Strict-Transport-Security\"",
+                    "site:{domain} intext:\"Access-Control-Expose-Headers\"",
+                    "site:{domain} intext:\"X-Content-Type-Options\""
+                ]
+            },
+            {
+                name: "Cloud Storage & Misconfig",
+                icon: "fas fa-cloud",
+                className: "category-cloud",
+                dorks: [
+                    "site:s3.amazonaws.com \"{domain}\"",
+                    "site:blob.core.windows.net \"{domain}\"",
+                    "site:googleapis.com \"{domain}\"",
+                    "site:drive.google.com \"{domain}\"",
+                    "site:dev.azure.com \"{domain}\"",
+                    "site:onedrive.live.com \"{domain}\"",
+                    "site:digitaloceanspaces.com \"{domain}\"",
+                    "site:sharepoint.com \"{domain}\"",
+                    "site:s3-external-1.amazonaws.com \"{domain}\"",
+                    "site:s3.dualstack.us-east-1.amazonaws.com \"{domain}\"",
+                    "site:dropbox.com/s \"{domain}\"",
+                    "site:box.com/s \"{domain}\"",
+                    "site:docs.google.com inurl:\"/d/\" \"{domain}\"",
+                    "site:storage.googleapis.com \"{domain}\"",
+                    "site:amazonaws.com intext:\"{domain}\"",
+                    "site:firebasestorage.googleapis.com \"{domain}\"",
+                    "site:firebase.io \"{domain}\"",
+                    "site:firebaseio.com \"{domain}\"",
+                    "site:\"{domain}\".s3.amazonaws.com",
+                    "site:storage.cloud.google.com \"{domain}\"",
+                    "site:azurewebsites.net \"{domain}\"",
+                    "site:cloudfront.net \"{domain}\""
+                ]
+            },
+            {
+                name: "WebSockets & Mobile APIs",
+                icon: "fas fa-mobile-alt",
+                className: "category-misc",
+                dorks: [
+                    "site:{domain} inurl:websocket",
+                    "site:{domain} inurl:socket.io",
+                    "site:{domain} intext:\"ws://\"",
+                    "site:{domain} intext:\"wss://\"",
+                    "site:{domain} \"WebSocket connection\"",
+                    "site:{domain} intext:\"mobile api\"",
+                    "site:{domain} inurl:api/mobile",
+                    "site:{domain} inurl:mobileapi",
+                    "site:{domain} inurl:app/api",
+                    "site:{domain} inurl:mobile/api",
+                    "site:{domain} inurl:api/app",
+                    "site:{domain} inurl:app/v1",
+                    "site:{domain} inurl:mobile/v1",
+                    "site:{domain} inurl:app.json",
+                    "site:{domain} inurl:api/ios",
+                    "site:{domain} inurl:api/android"
+                ]
+            },
+            {
+                name: "SSRF Vulnerable Params",
+                icon: "fas fa-random",
+                className: "category-injection",
+                dorks: [
+                    "inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain= | inurl:page= inurl:& site:{domain}",
+                    "inurl:proxy | inurl:fetch | inurl:process | inurl:pull | inurl:retrieve inurl:& site:{domain}",
+                    "inurl:go | inurl:redirect | inurl:return | inurl:src | inurl:source | inurl:u | inurl:uri | inurl:url inurl:& site:{domain}",
+                    "inurl:window | inurl:next | inurl:target | inurl:rurl | inurl:dest inurl:& site:{domain}",
+                    "inurl:api inurl:fetch inurl:& site:{domain}",
+                    "inurl:load= inurl:& site:{domain}",
+                    "inurl:file= inurl:& site:{domain}",
+                    "inurl:resource= inurl:& site:{domain}",
+                    "inurl:host= inurl:& site:{domain}",
+                    "inurl:preview= inurl:& site:{domain}",
+                    "inurl:view= inurl:& site:{domain}",
+                    "inurl:validate= inurl:& site:{domain}"
+                ]
+            },
+            {
+                name: "XSS Vulnerable Params",
+                icon: "fas fa-code",
+                className: "category-injection",
+                dorks: [
+                    "inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:& site:{domain}",
+                    "inurl:msg= | inurl:text= | inurl:error= | inurl:title= | inurl:description= | inurl:content= inurl:& site:{domain}",
+                    "inurl:name= | inurl:message= | inurl:body= | inurl:feedback= inurl:& site:{domain}",
+                    "inurl:alert= inurl:& site:{domain}",
+                    "inurl:caption= inurl:& site:{domain}",
+                    "inurl:html= inurl:& site:{domain}",
+                    "inurl:comment= inurl:& site:{domain}",
+                    "inurl:subject= inurl:& site:{domain}",
+                    "inurl:callback= inurl:& site:{domain}",
+                    "inurl:redirect= inurl:& site:{domain}",
+                    "inurl:return= inurl:& site:{domain}",
+                    "inurl:next= inurl:& site:{domain}"
+                ]
+            },
+            {
+                name: "SQL Injection Params",
+                icon: "fas fa-database",
+                className: "category-injection",
+                dorks: [
+                    "inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:& site:{domain}",
+                    "inurl:user= | inurl:uid= | inurl:article= | inurl:item= | inurl:page_id= inurl:& site:{domain}",
+                    "inurl:view= | inurl:product= | inurl:news= | inurl:file= | inurl:type= inurl:& site:{domain}",
+                    "inurl:tracking= inurl:& site:{domain}",
+                    "inurl:ref= inurl:& site:{domain}",
+                    "inurl:orderid= inurl:& site:{domain}",
+                    "inurl:cartid= inurl:& site:{domain}",
+                    "inurl:content= inurl:& site:{domain}",
+                    "inurl:section= inurl:& site:{domain}",
+                    "inurl:index.php?id= site:{domain}",
+                    "inurl:gallery.php?id= site:{domain}",
+                    "inurl:products.php?id= site:{domain}"
+                ]
+            },
+            {
+                name: "RCE Vulnerable Params",
+                icon: "fas fa-terminal",
+                className: "category-injection",
+                dorks: [
+                    "inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:& site:{domain}",
+                    "inurl:system= | inurl:os= | inurl:execute= | inurl:shell= | inurl:download= inurl:& site:{domain}",
+                    "inurl:eval= | inurl:command= | inurl:execute= | inurl:script= | inurl:payload= inurl:& site:{domain}",
+                    "inurl:bash= inurl:& site:{domain}",
+                    "inurl:nslookup= inurl:& site:{domain}",
+                    "inurl:phpinfo= inurl:& site:{domain}",
+                    "inurl:proc= inurl:& site:{domain}",
+                    "inurl:curl= inurl:& site:{domain}",
+                    "inurl:wget= inurl:& site:{domain}",
+                    "inurl:whoami= inurl:& site:{domain}",
+                    "inurl:nc= inurl:& site:{domain}"
+                ]
+            },
+            {
+                name: "Template Injection",
+                icon: "fas fa-file-code",
+                className: "category-injection",
+                dorks: [
+                    "site:{domain} intext:\"{{'7'*7}}\"",
+                    "site:{domain} intext:\"${7*7}\"",
+                    "site:{domain} intext:\"{{7*7}}\"",
+                    "site:{domain} intext:\"<%= 7*7 %>\"",
+                    "site:{domain} intext:\"#{7*7}\"",
+                    "site:{domain} intext:\"{{''.constructor.constructor}}\"",
+                    "site:{domain} intext:\"{{config.items()}}\"",
+                    "site:{domain} intext:\"{{request}}\"",
+                    "site:{domain} intext:\"{{self}}\"",
+                    "site:{domain} intext:\"{{config}}\"",
+                    "site:{domain} intext:\"{{request.application.__globals__}}\"",
+                    "site:{domain} intext:\"{{request.__class__}}\"",
+                    "site:{domain} intext:\"${}\"",
+                    "site:{domain} intext:\"th:text\""
+                ]
+            },
+            {
+                name: "DevOps & Infrastructure",
+                icon: "fas fa-server",
+                className: "category-cloud",
+                dorks: [
+                    "site:{domain} inurl:nagios",
+                    "site:{domain} inurl:zabbix",
+                    "site:{domain} inurl:prometheus",
+                    "site:{domain} inurl:grafana",
+                    "site:{domain} inurl:kibana",
+                    "site:{domain} inurl:splunk",
+                    "site:{domain} inurl:elasticsearch",
+                    "site:{domain} inurl:monitor",
+                    "site:{domain} inurl:jenkins",
+                    "site:{domain} inurl:travis",
+                    "site:{domain} inurl:circleci",
+                    "site:{domain} inurl:bamboo",
+                    "site:{domain} inurl:gitlab-ci",
+                    "site:{domain} inurl:drone",
+                    "site:{domain} intext:\"pipeline\"",
+                    "site:{domain} inurl:.git",
+                    "site:{domain} inurl:.git/HEAD",
+                    "site:{domain} inurl:.git/config",
+                    "site:{domain} intext:\"Index of /.git\"",
+                    "site:{domain} filetype:git",
+                    "site:{domain} inurl:kubernetes",
+                    "site:{domain} inurl:rancher",
+                    "site:{domain} inurl:docker",
+                    "site:{domain} inurl:swarm",
+                    "site:{domain} inurl:portainer",
+                    "site:{domain} inurl:sonarqube",
+                    "site:{domain} inurl:phabricator",
+                    "site:{domain} inurl:jira",
+                    "site:{domain} inurl:confluence"
+                ]
+            },
+            {
+                name: "Authentication Bypasses",
+                icon: "fas fa-user-ninja",
+                className: "category-access",
+                dorks: [
+                    "site:{domain} inurl:debug=true",
+                    "site:{domain} inurl:test=true",
+                    "site:{domain} inurl:dev=true",
+                    "site:{domain} inurl:development=true",
+                    "site:{domain} inurl:bypass=true",
+                    "site:{domain} inurl:local=true",
+                    "site:{domain} inurl:staging=true",
+                    "site:{domain} inurl:backdoor",
+                    "site:{domain} inurl:auth=skip",
+                    "site:{domain} inurl:auth=false",
+                    "site:{domain} inurl:admin=true",
+                    "site:{domain} inurl:show_err=true",
+                    "site:{domain} inurl:debug_mode=true",
+                    "site:{domain} inurl:debug_level",
+                    "site:{domain} inurl:testing=true",
+                    "site:{domain} inurl:dev_mode=true",
+                    "site:{domain} inurl:access=all",
+                    "site:{domain} inurl:root=true",
+                    "site:{domain} inurl:demo_mode=true",
+                    "site:{domain} inurl:sample=true"
+                ]
+            },
+            {
+                name: "Open Redirects",
+                icon: "fas fa-external-link-alt",
+                className: "category-access",
+                dorks: [
+                    "site:{domain} inurl:redirect",
+                    "site:{domain} inurl:return",
+                    "site:{domain} inurl:r=http",
+                    "site:{domain} inurl:url=http",
+                    "site:{domain} inurl:next=http",
+                    "site:{domain} inurl:continue=http",
+                    "site:{domain} inurl:returnto=http",
+                    "site:{domain} inurl:goto=http",
+                    "site:{domain} inurl:link=http",
+                    "site:{domain} inurl:to=http",
+                    "site:{domain} inurl:out=http",
+                    "site:{domain} inurl:view=http",
+                    "site:{domain} inurl:location=http",
+                    "site:{domain} inurl:path=http",
+                    "site:{domain} inurl:uri=http"
+                ]
+            },
+            {
+                name: "Development & Hidden",
+                icon: "fas fa-code-branch",
+                className: "category-misc",
+                dorks: [
+                    "site:{domain} inurl:beta",
+                    "site:{domain} inurl:hidden",
+                    "site:{domain} inurl:unreleased",
+                    "site:{domain} inurl:upcoming",
+                    "site:{domain} inurl:draft",
+                    "site:{domain} inurl:private",
+                    "site:{domain} inurl:preview",
+                    "site:{domain} inurl:testing",
+                    "site:{domain} inurl:dev",
+                    "site:{domain} inurl:develop",
+                    "site:{domain} inurl:development",
+                    "site:{domain} inurl:stage",
+                    "site:{domain} inurl:staging",
+                    "site:{domain} inurl:preprod",
+                    "site:{domain} inurl:prototype",
+                    "site:{domain} inurl:internal",
+                    "site:{domain} inurl:test",
+                    "site:{domain} inurl:debug",
+                    "site:{domain} inurl:local",
+                    "site:{domain} inurl:sandbox"
+                ]
+            },
+            {
+                name: "CMS & Framework",
+                icon: "fas fa-th",
+                className: "category-files",
+                dorks: [
+                    "site:{domain} inurl:wp-admin",
+                    "site:{domain} inurl:wp-content",
+                    "site:{domain} inurl:wp-includes",
+                    "site:{domain} inurl:wp-json",
+                    "site:{domain} inurl:/wp-admin/admin-ajax.php",
+                    "site:{domain} intext:\"Powered by\" & intext:Drupal & inurl:user",
+                    "site:{domain} inurl:*/joomla/login",
+                    "site:{domain} inurl:administrator/index.php",
+                    "site:{domain} inurl:typo3",
+                    "site:{domain} inurl:magento",
+                    "site:{domain} inurl:admin/Cms_Wysiwyg/directive/",
+                    "site:{domain} inurl:shopify",
+                    "site:{domain} inurl:laravel",
+                    "site:{domain} inurl:symfony",
+                    "site:{domain} inurl:django",
+                    "site:{domain} inurl:flask",
+                    "site:{domain} inurl:rails",
+                    "site:{domain} inurl:spring",
+                    "site:{domain} inurl:struts",
+                    "site:{domain} inurl:node_modules",
+                    "site:{domain} inurl:package.json",
+                    "site:{domain} inurl:composer.json"
+                ]
+            },
+            {
+                name: "Security Misconfigurations",
+                icon: "fas fa-shield-virus",
+                className: "category-auth",
+                dorks: [
+                    "site:{domain} intext:\"Content-Security-Policy\"",
+                    "site:{domain} intext:\"unsafe-inline\"",
+                    "site:{domain} intext:\"unsafe-eval\"",
+                    "site:{domain} intext:\"script-src 'self'\"",
+                    "site:{domain} intext:\"style-src 'unsafe-inline'\"",
+                    "site:{domain} inurl:server-status",
+                    "site:{domain} inurl:status?full=true",
+                    "site:{domain} inurl:phpmyadmin",
+                    "site:{domain} inurl:adminer",
+                    "site:{domain} inurl:phpinfo",
+                    "site:{domain} inurl:info.php",
+                    "site:{domain} \"You have an error in your SQL syntax\"",
+                    "site:{domain} \"Warning: mysql_connect()\"",
+                    "site:{domain} \"Fatal error:\"",
+                    "site:{domain} \"Exception in thread \"main\"\"",
+                    "site:{domain} intext:\"syntax error at line\""
+                ]
+            },
+            {
+                name: "New & Advanced Dorks",
+                icon: "fas fa-rocket",
+                className: "category-misc",
+                dorks: [
+                    "site:{domain} inurl:api/graphql",
+                    "site:{domain} inurl:api/gql",
+                    "site:{domain} inurl:\".well-known/security.txt\"",
+                    "site:{domain} inurl:sourcemaps",
+                    "site:{domain} inurl:\".map\"",
+                    "site:{domain} inurl:swagger.json",
+                    "site:{domain} inurl:api-docs.json",
+                    "site:{domain} inurl:kubernetes.io/dockerconfigjson",
+                    "site:{domain} inurl:traefik",
+                    "site:{domain} inurl:terraform.tfstate",
+                    "site:{domain} inurl:\".git/refs/heads\"",
+                    "site:{domain} inurl:\".env.local\"",
+                    "site:{domain} intext:\"Web.config file\"",
+                    "site:{domain} inurl:composer.lock",
+                    "site:{domain} inurl:yarn.lock",
+                    "site:{domain} inurl:package-lock.json",
+                    "site:{domain} inurl:Pipfile.lock",
+                    "site:{domain} inurl:Gemfile.lock",
+                    "site:{domain} inurl:\"/.netlify/\"",
+                    "site:{domain} inurl:\".vscode/\"",
+                    "site:{domain} inurl:\".idea/\"",
+                    "site:{domain} inurl:\"/.circleci/\"",
+                    "site:{domain} inurl:\"/.github/\""
+                ]
+            }
+        ];
 
-        const peopleSearchDorks = {
-            "Advanced Email Discovery": [
-                "\"{name}\" (email OR mail OR contact) -template",
-                "\"{name}\" intext:@gmail.com OR intext:@yahoo.com OR intext:@hotmail.com",
-                "\"{name}\" + \"email\" + \"contact\" filetype:pdf OR filetype:doc OR filetype:txt",
-                "intext:\"{name}\" intext:\"@\" before:2024 after:2020",
-                "\"{name}\" mailto:",
-                "\"{email}\" OR \"{name}\" intext:email ext:txt OR ext:csv OR ext:pdf"
-            ],
-            "Deep Personal Info": [
-                "\"{name}\" (resume OR CV OR curriculum OR education OR biography) filetype:pdf",
-                "\"{name}\" (address OR \"phone number\" OR contact OR email) -template",
-                "\"{name}\" intitle:\"about me\" OR intitle:\"biography\" OR intitle:\"profile\"",
-                "\"{name}\" intext:birthday OR intext:\"born in\" OR intext:\"born on\"",
-                "\"{name}\" (hometown OR \"lives in\" OR \"based in\" OR \"located in\")",
-                "\"{name}\" \"family\" OR \"married\" OR \"children\" OR \"spouse\" site:newspaper.com OR site:legacy.com"
-            ],
-            "Financial & Business": [
-                "\"{name}\" (CEO OR founder OR owner OR partner OR director) site:bloomberg.com OR site:reuters.com",
-                "\"{name}\" (investment OR investor OR shareholder OR stake) site:sec.gov",
-                "\"{name}\" site:companieshouse.gov.uk OR site:opencorporates.com",
-                "\"{name}\" (salary OR compensation OR bonus) site:salary.com OR site:glassdoor.com",
-                "\"{name}\" (net worth OR assets OR property) site:forbes.com OR site:wsj.com",
-                "\"{name}\" intext:\"board member\" OR intext:\"executive\" filetype:pdf"
-            ],
-            "Dark Web & Leaks": [
-                "site:pastebin.com \"{email}\" OR \"{name}\"",
-                "site:ghostbin.co \"{email}\" OR \"{name}\"",
-                "site:github.com \"{email}\" OR \"{name}\" filename:passwords OR filename:credentials",
-                "site:leak-lookup.com \"{email}\" OR \"{name}\"",
-                "intext:\"{email}\" site:paste.* OR site:*leak*",
-                "\"{name}\" (username OR user OR account) site:reddit.com OR site:github.com"
-            ],
-            "Advanced Social Media": [
-                "site:facebook.com \"{name}\" \"{location}\" -site:facebook.com/public",
-                "site:twitter.com \"{name}\" OR from:\"{name}\" until:2024 since:2010",
-                "site:instagram.com \"{name}\" (bio OR profile) \"{location}\"",
-                "\"{name}\" site:tiktok.com OR site:snapchat.com",
-                "\"{name}\" (account OR profile) site:*.com intext:social",
-                "site:linkedin.com/in/ \"{name}\" \"{location}\""
-            ],
-            "Legal & Court Records": [
-                "\"{name}\" site:courtlistener.com OR site:caselaw.findlaw.com",
-                "\"{name}\" (lawsuit OR litigation OR court OR legal OR arrest) site:news.*",
-                "\"{name}\" filetype:pdf site:*.gov intext:court",
-                "\"{name}\" site:mugshots.com OR site:arrests.org",
-                "\"{name}\" (conviction OR sentenced OR pleaded) site:justice.gov",
-                "\"{name}\" intext:\"case number\" OR intext:\"docket\" site:*.gov"
-            ],
-            "Deep Academic": [
-                "\"{name}\" site:academia.edu filetype:pdf",
-                "\"{name}\" (thesis OR dissertation) site:proquest.com",
-                "\"{name}\" author:* site:scholar.google.com",
-                "\"{name}\" site:researchgate.net intext:publication",
-                "\"{name}\" (professor OR researcher OR faculty) site:*.edu",
-                "\"{name}\" site:arxiv.org OR site:citeseerx.ist.psu.edu"
-            ],
-            "Advanced Property": [
-                "\"{name}\" site:property.* OR site:zillow.com OR site:trulia.com",
-                "\"{name}\" (property OR house OR address) site:whitepages.com",
-                "\"{name}\" intext:\"property records\" OR intext:\"tax assessment\"",
-                "\"{name}\" site:blockshopper.com OR site:propertyshark.com",
-                "\"{name}\" \"real estate\" OR \"property owner\" filetype:pdf",
-                "\"{name}\" (address OR residence) site:*.gov"
-            ],
-            "Digital Footprints": [
-                "\"{name}\" (username OR user OR account) site:github.com OR site:gitlab.com",
-                "\"{name}\" inurl:profile OR inurl:user OR inurl:about",
-                "\"{name}\" site:archive.org",
-                "\"{name}\" (forum OR community OR member) site:reddit.com",
-                "\"{name}\" intext:\"joined\" OR intext:\"member since\"",
-                "site:*/about \"{name}\" OR site:*/profile \"{name}\""
-            ],
-            "Professional Speaking": [
-                "\"{name}\" (speaker OR presenter OR keynote) site:conference.*",
-                "\"{name}\" site:slideshare.net OR site:speakerdeck.com",
-                "\"{name}\" intext:\"conference speaker\" OR intext:\"event speaker\"",
-                "\"{name}\" (panel OR webinar OR seminar) filetype:pdf",
-                "\"{name}\" site:youtube.com intext:\"conference\" OR intext:\"talk\"",
-                "\"{name}\" site:eventbrite.com OR site:meetup.com speaker"
-            ],
-            "Telecommunications": [
-                "\"{name}\" intext:\"phone number\" OR intext:\"mobile\" OR intext:\"contact\"",
-                "\"{name}\" site:whitepages.com OR site:411.com",
-                "\"{name}\" (phone OR contact OR reach) -template",
-                "\"{name}\" site:phonebook.* OR site:directory.*",
-                "\"{name}\" intext:\"contact information\" filetype:pdf OR filetype:doc",
-                "\"{name}\" site:*/contact OR site:*/directory"
-            ],
-            "Historical Records": [
-                "\"{name}\" site:ancestry.com OR site:genealogy.com",
-                "\"{name}\" (birth OR death OR marriage) site:familysearch.org",
-                "\"{name}\" site:newspapers.com date:1900-2024",
-                "\"{name}\" (obituary OR death) site:legacy.com",
-                "\"{name}\" site:findagrave.com OR site:familytree.com",
-                "\"{name}\" \"family history\" OR genealogy filetype:pdf"
-            ],
-            "Medical & Healthcare": [
-                "\"{name}\" site:healthgrades.com OR site:doctor.webmd.com",
-                "\"{name}\" (doctor OR physician OR surgeon OR dentist) site:*.edu",
-                "\"{name}\" intext:\"medical license\" OR intext:\"board certified\"",
-                "\"{name}\" site:hospital.* OR site:clinic.*",
-                "\"{name}\" (medical OR health OR practice) filetype:pdf",
-                "\"{name}\" site:*/provider OR site:*/doctor"
-            ],
-            "Advanced Location": [
-                "\"{name}\" \"{location}\" -template site:local.*",
-                "\"{name}\" (lives OR resides OR based) near:\"{location}\"",
-                "\"{name}\" \"{location}\" site:neighbors.* OR site:nextdoor.com",
-                "\"{name}\" (address OR location OR based) \"{location}\" filetype:pdf",
-                "\"{name}\" \"{location}\" site:local.yahoo.com OR site:patch.com",
-                "\"{name}\" (resident OR citizen) \"{location}\""
-            ]
-        };
-
-        function switchMode(mode) {
-            // Update button states
-            document.querySelectorAll('.mode-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.${mode}-btn`).classList.add('active');
-
-            // Update section visibility
-            document.querySelectorAll('.tool-section').forEach(section => section.classList.remove('active'));
-            document.getElementById(`${mode}-section`).classList.add('active');
-
-            // Clear results
-            document.getElementById('bug-bounty-results').innerHTML = '';
-            document.getElementById('people-search-results').innerHTML = '';
+        // Matrix background effect
+        function createMatrixBackground() {
+            const container = document.getElementById('matrix-background');
+            const containerWidth = container.offsetWidth;
+            
+            for (let i = 0; i < 20; i++) {
+                const line = document.createElement('div');
+                line.className = 'matrix-line';
+                line.style.left = Math.random() * containerWidth + 'px';
+                line.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                line.style.height = Math.random() * 100 + 50 + '%';
+                container.appendChild(line);
+            }
         }
 
+        // Navigation functionality
+        document.getElementById('home-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            setActiveNav('home-link');
+            document.getElementById('bug-bounty-section').style.display = 'block';
+            document.getElementById('about-section').style.display = 'none';
+        });
+        
+        document.getElementById('bug-bounty-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            setActiveNav('bug-bounty-link');
+            document.getElementById('bug-bounty-section').style.display = 'block';
+            document.getElementById('about-section').style.display = 'none';
+        });
+        
+        document.getElementById('about-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            setActiveNav('about-link');
+            document.getElementById('bug-bounty-section').style.display = 'none';
+            document.getElementById('about-section').style.display = 'block';
+        });
+        
+        function setActiveNav(id) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+        }
+        
         function isValidDomain(domain) {
             const domainRegex = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}\/?$/i;
             return domainRegex.test(domain);
         }
-
+        
         function generateBugBountyDorks() {
-            const domainInput = document.getElementById('domain').value.trim();
-            const resultsDiv = document.getElementById('bug-bounty-results');
-            resultsDiv.innerHTML = '';
-
+            const domainInput = document.getElementById('domain-input').value.trim();
             if (!isValidDomain(domainInput)) {
-                alert('Please enter a valid domain or URL!');
+                alert('Please enter a valid domain (e.g., example.com)');
                 return;
             }
-
+            
             const domain = domainInput.replace(/https?:\/\//, '').replace(/\/.*$/, '');
-
-            for (const category in bugBountyDorks) {
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category';
+            const resultsContent = document.getElementById('results-content');
+            resultsContent.innerHTML = '';
+            document.getElementById('domain-display').textContent = domain;
+            
+            // Show loading animation
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // Simulate loading time for better UX
+            setTimeout(() => {
+                // Hide loading and show results
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
                 
-                const categoryHeader = document.createElement('h3');
-                categoryHeader.textContent = category;
-                categoryDiv.appendChild(categoryHeader);
-
-                bugBountyDorks[category].forEach(dork => {
-                    const query = dork.replace(/{domain}/g, domain);
-                    const link = document.createElement('a');
+                // Generate dorks for each category
+                bugBountyCategories.forEach(category => {
+                    const categoryContainer = document.createElement('div');
+                    categoryContainer.className = `category-container ${category.className}`;
                     
-                    if (query.startsWith("https://crt.sh")) {
-                        link.href = query;
-                    } else {
-                        link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-                    }
+                    // Category indicator
+                    const indicator = document.createElement('div');
+                    indicator.className = 'category-indicator';
+                    categoryContainer.appendChild(indicator);
                     
-                    link.textContent = query;
-                    link.target = '_blank';
-                    categoryDiv.appendChild(link);
-                });
-
-                resultsDiv.appendChild(categoryDiv);
-            }
-        }
-
-        function generatePeopleSearchDorks() {
-            const nameInput = document.getElementById('name').value.trim();
-            const emailInput = document.getElementById('email').value.trim();
-            const locationInput = document.getElementById('location').value.trim();
-            const resultsDiv = document.getElementById('people-search-results');
-            resultsDiv.innerHTML = '';
-
-            if (nameInput.length < 3) {
-                alert('Please enter a valid name!');
-                return;
-            }
-
-            for (const category in peopleSearchDorks) {
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category';
-                
-                const categoryHeader = document.createElement('h3');
-                categoryHeader.textContent = category;
-                categoryDiv.appendChild(categoryHeader);
-
-                peopleSearchDorks[category].forEach(dork => {
-                    let query = dork
-                        .replace(/{name}/g, nameInput)
-                        .replace(/{email}/g, emailInput || nameInput)
-                        .replace(/{location}/g, locationInput || "");
+                    // Add dork count badge
+                    const dorkCount = document.createElement('div');
+                    dorkCount.className = 'dork-count';
+                    dorkCount.textContent = `${category.dorks.length} dorks`;
+                    categoryContainer.appendChild(dorkCount);
+                    
+                    // Category title with icon
+                    const categoryTitle = document.createElement('h4');
+                    categoryTitle.className = 'category-title';
+                    
+                    const categoryBadge = document.createElement('div');
+                    categoryBadge.className = 'category-badge';
+                    const badgeIcon = document.createElement('i');
+                    badgeIcon.className = category.icon;
+                    categoryBadge.appendChild(badgeIcon);
+                    
+                    categoryTitle.appendChild(categoryBadge);
+                    categoryTitle.appendChild(document.createTextNode(category.name));
+                    categoryContainer.appendChild(categoryTitle);
+                    
+                    // Dork links
+                    const dorkLinks = document.createElement('div');
+                    dorkLinks.className = 'dork-links';
+                    
+                    category.dorks.forEach(dork => {
+                        const query = dork.replace(/{domain}/g, domain);
+                        const link = document.createElement('a');
                         
-                    const link = document.createElement('a');
-                    link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-                    link.textContent = query;
-                    link.target = '_blank';
-                    categoryDiv.appendChild(link);
+                        if (query.startsWith("https://")) {
+                            link.href = query;
+                        } else {
+                            link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        }
+                        
+                        link.textContent = query;
+                        link.className = 'dork-link';
+                        link.target = '_blank';
+                        dorkLinks.appendChild(link);
+                    });
+                    
+                    categoryContainer.appendChild(dorkLinks);
+                    resultsContent.appendChild(categoryContainer);
                 });
-
-                resultsDiv.appendChild(categoryDiv);
-            }
+            }, 1200);
         }
+        
+        // Initialize matrix effect when page loads
+        window.onload = function() {
+            createMatrixBackground();
+        };
     </script>
 </body>
 </html>
