@@ -3,7 +3,7 @@
 A powerful web-based tool for generating Google dorks, specialized for both bug bounty hunting and people searching. This tool helps security researchers and investigators create targeted search queries to discover sensitive information and potential security vulnerabilities.
 Experience the live application here: [Google Dorks Generator](https://str1k3r0p.github.io/GoogleDorks/)
 
-![image](https://github.com/user-attachments/assets/b97fd2f5-fd0e-4840-b82b-84291d24735a)
+![image](https://github.com/user-attachments/assets/93557803-85bb-4632-82d4-0044b84cdf98)
 
 
 ## Features
