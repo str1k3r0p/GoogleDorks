@@ -46,29 +46,12 @@ Experience the live application here: [Google Dorks Generator](https://str1k3r0p
 
 Experience the live application here: [Google Dorks Generator](https://str1k3r0p.github.io/GoogleDorks/)
 
-## Installation
-
-1. Clone this repository:
-```bash
-git clone https://github.com/str1k3r0p/GoogleDorks.git
-```
-
-2. Open `index.html` in your web browser. No additional setup or dependencies required.
-
-## Usage
-
 ### Bug Bounty Mode
 1. Click the "Bug Bounty Dorks" button
 2. Enter a valid domain (e.g., example.com)
 3. Click "Generate Bug Bounty Dorks"
 4. Click on any generated dork to open the Google search in a new tab
 
-### People Search Mode
-1. Click the "People Search Dorks" button
-2. Enter the person's full name
-3. Optionally enter their email and location
-4. Click "Generate People Search Dorks"
-5. Click on any generated dork to open the Google search in a new tab
 
 ## Features
 - Clean, modern interface
@@ -81,34 +64,6 @@ git clone https://github.com/str1k3r0p/GoogleDorks.git
 - Input validation
 - Cross-browser compatibility
 
-## Security Considerations
-
-⚠️ **Important Notice**: This tool is intended for:
-- Legal security research
-- Bug bounty hunting on authorized targets
-- Open-source intelligence (OSINT) gathering
-- Legal personal research
-
-Do NOT use this tool for:
-- Privacy violations
-- Malicious data collection
-- Any illegal activities
-
-
-### Browser Compatibility
-- Chrome
-- Firefox
-- Safari
-- Edge
-- Opera
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
