@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Dorks - Bug Bounty Dork Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
+        /* Custom CSS variables and complex animations that are harder to replicate with Tailwind alone */
         :root {
             --neon-cyan: #00ffff;
             --neon-green: #00ff99;
@@ -20,18 +24,13 @@
             --dark-bg: #0c1016;
             --darker-bg: #0a0e14;
             --nav-bg: #080c12;
-            --card-bg: #111824;
-            --card-bg-alt: #14131c;
-            --text-color: #e0e0e0;
-            --subtitle-color: #8a8a8a;
+            --card-bg: #111824; /* bg-slate-900 approx */
+            --card-bg-alt: #14131c; /* A bit purplish dark */
+            --text-color: #e0e0e0; /* text-gray-200 approx */
+            --subtitle-color: #8a8a8a; /* text-gray-500 approx */
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        /* Apply custom fonts via Tailwind's theme extension if preferred, or use direct font-family styles */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: var(--dark-bg);
@@ -40,7 +39,7 @@
             overflow-x: hidden;
             position: relative;
         }
-        
+
         /* High-tech grid background */
         body::before {
             content: "";
@@ -49,26 +48,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
                 linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px),
                 linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px);
             background-size: 100% 100%, 30px 30px, 30px 30px;
             z-index: -1;
         }
-        
-        .navbar {
-            background-color: var(--nav-bg);
-            padding: 15px 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            z-index: 1000;
-        }
-        
+
         /* Navbar scan line effect */
         .navbar::after {
             content: "";
@@ -81,30 +68,15 @@
             opacity: 0.4;
             animation: scanline 4s linear infinite;
         }
-        
+
         @keyframes scanline {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-        
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--neon-cyan);
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            position: relative;
-        }
-        
-        /* Digital distortion effect */
+
+        /* Digital distortion effect for logo */
         .logo::before {
-            content: "Google Dorks";
+            content: "Google Dorks"; /* Ensure this matches the logo text */
             position: absolute;
             left: 0;
             top: 0;
@@ -113,7 +85,7 @@
             animation: glitch 3s infinite;
             opacity: 0.3;
         }
-        
+
         @keyframes glitch {
             0%, 90%, 100% { transform: translate(0, 0); opacity: 0.3; }
             91% { transform: translate(-2px, 1px); opacity: 0.5; }
@@ -122,81 +94,8 @@
             94% { transform: translate(1px, 1px); opacity: 0.3; }
         }
         
-        .tagline {
-            font-size: 0.9rem;
-            color: var(--subtitle-color);
-            margin-top: -5px;
-            font-family: 'Share Tech Mono', monospace;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-        
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 5px 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Share Tech Mono', monospace;
-            letter-spacing: 0.5px;
-            position: relative;
-        }
-        
-        .nav-links a::before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: var(--neon-cyan);
-            transform: translateX(-50%);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: var(--neon-cyan);
-        }
-        
-        .nav-links a:hover::before {
-            width: 100%;
-        }
-        
-        .nav-links a.active {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-        }
-        
-        .nav-links a.active::before {
-            width: 100%;
-            height: 2px;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .dork-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 255, 255, 0.1);
-        }
-        
-        /* Cybersecurity badge corners */
-        .dork-card::before {
+        /* Cybersecurity badge corners for dork-card */
+        .dork-card-main::before {
             content: "";
             position: absolute;
             top: 0;
@@ -205,11 +104,10 @@
             height: 40px;
             border-top: 2px solid var(--neon-cyan);
             border-left: 2px solid var(--neon-cyan);
-            border-top-left-radius: 7px;
+            border-top-left-radius: 7px; /* Tailwind: rounded-tl-md */
             z-index: 1;
         }
-        
-        .dork-card::after {
+        .dork-card-main::after {
             content: "";
             position: absolute;
             bottom: 0;
@@ -218,101 +116,25 @@
             height: 40px;
             border-bottom: 2px solid var(--neon-cyan);
             border-right: 2px solid var(--neon-cyan);
-            border-bottom-right-radius: 7px;
+            border-bottom-right-radius: 7px; /* Tailwind: rounded-br-md */
             z-index: 1;
         }
-        
+
         /* Digital matrix effect */
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-            z-index: 0;
-            opacity: 0.05;
-        }
-        
         .matrix-line {
             position: absolute;
             width: 1px;
-            height: 100%;
+            height: 100%; /* Will be overridden by JS */
             background: var(--neon-green);
             opacity: 0.5;
             top: 0;
             animation: matrixRain linear infinite;
         }
-        
         @keyframes matrixRain {
-            0% {
-                transform: translateY(-100%);
-            }
-            100% {
-                transform: translateY(100%);
-            }
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
-        
-        .section-title {
-            text-align: center;
-            color: var(--neon-cyan);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            letter-spacing: 2px;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            z-index: 2;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
-        }
-        
-        .input-container {
-            position: relative;
-            margin-bottom: 25px;
-            z-index: 2;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            color: var(--text-color);
-            font-size: 1rem;
-            border-radius: 4px;
-            font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--neon-cyan);
-            z-index: 2;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-        
+
         /* Input scan line animation */
         .input-scan {
             position: absolute;
@@ -326,41 +148,13 @@
             animation: scanInput 2s ease-in-out infinite;
             pointer-events: none;
         }
-        
         @keyframes scanInput {
             0%, 100% { left: 0; opacity: 0.5; }
             50% { left: 100%; opacity: 0.8; }
         }
         
-        .buttons-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            color: #111;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-family: 'Share Tech Mono', monospace;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: var(--neon-cyan);
-        }
-        
-        .btn::before {
+        /* Button sheen effect */
+        .btn-sheen::before {
             content: "";
             position: absolute;
             top: -50%;
@@ -372,55 +166,15 @@
             transition: all 0.5s ease;
             z-index: 1;
         }
-        
-        .btn span {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .btn i {
-            position: relative;
-            z-index: 2;
-            font-size: 1.2rem;
-        }
-        
-        .btn:hover::before {
+        .btn-sheen:hover::before {
             animation: sheen 1s forwards;
         }
-        
         @keyframes sheen {
-            0% {
-                transform: rotate(45deg) translateY(0);
-            }
-            100% {
-                transform: rotate(45deg) translateY(200%);
-            }
+            0% { transform: rotate(45deg) translateY(0); }
+            100% { transform: rotate(45deg) translateY(200%); }
         }
-        
-        .btn-bounty {
-            background-color: var(--neon-cyan);
-        }
-        
-        .btn-bounty:hover {
-            background-color: #00d8d8;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-        }
-        
-        .loading-container {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .cyber-loader {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            position: relative;
-        }
-        
+
+        /* Cyber loader */
         .cyber-loader::before,
         .cyber-loader::after {
             content: "";
@@ -434,91 +188,37 @@
             border-top-color: var(--neon-cyan);
             animation: cyber-spin 1.5s linear infinite;
         }
-        
         .cyber-loader::after {
             border-top-color: transparent;
-            border-left-color: var(--neon-cyan);
+            border-left-color: var(--neon-cyan); /* Changed from border-top-color */
             animation-duration: 1s;
         }
-        
         @keyframes cyber-spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .loading-text {
-            margin-top: 10px;
-            font-family: 'Share Tech Mono', monospace;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-            letter-spacing: 1px;
-            position: relative;
-        }
-        
-        .loading-text::after {
+
+        /* Loading text dots */
+        .loading-text-animated::after {
             content: "...";
             position: absolute;
             animation: dots 1.5s infinite;
-            width: 24px;
+            width: 24px; /* Adjust if needed */
             text-align: left;
         }
-        
         @keyframes dots {
             0%, 20% { content: "."; }
             40%, 60% { content: ".."; }
             80%, 100% { content: "..."; }
         }
-        
-        .results-container {
-            margin-top: 40px;
-            display: none;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .results-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: var(--neon-cyan);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .results-title i {
-            font-size: 1.2rem;
+
+        /* Results title icon pulse */
+        .results-title-icon {
             animation: pulse 2s infinite;
         }
-        
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
-        }
-        
-        .dork-sections {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .category-container {
-            background-color: rgba(10, 14, 20, 0.7);
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(0, 255, 255, 0.05);
-            position: relative;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .category-container:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         
         /* Category type indicator */
@@ -528,812 +228,308 @@
             left: 0;
             width: 5px;
             height: 100%;
-            background: linear-gradient(to bottom, var(--category-color), transparent);
+            background: linear-gradient(to bottom, var(--category-color, var(--neon-cyan)), transparent); /* Fallback color */
             opacity: 0.8;
         }
-        
-        .category-title {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Rajdhani', sans-serif;
-            position: relative;
-            padding-left: 15px;
-        }
-        
-        .category-title i {
-            font-size: 1.2rem;
-        }
-        
-        .category-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-size: 0.9rem;
-            position: relative;
-        }
-        
-        .category-badge::before {
+
+        /* Category badge rotation */
+        .category-badge-animated::before {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            padding: 1px;
-            background: linear-gradient(45deg, var(--category-color), transparent);
+            padding: 1px; /* Border thickness */
+            background: linear-gradient(45deg, var(--category-color, var(--neon-cyan)), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             animation: rotateBadge 3s linear infinite;
         }
-        
         @keyframes rotateBadge {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .category-badge i {
-            color: var(--category-color);
-            font-size: 1rem;
-        }
-        
-        .category-title span {
-            position: relative;
-            z-index: 1;
-            color: var(--category-color);
-            font-weight: 600;
-            text-shadow: 0 0 5px rgba(var(--category-shadow), 0.5);
-        }
-        
-        .dork-count {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 0.8rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-family: 'Share Tech Mono', monospace;
-            color: var(--category-color);
-            border: 1px solid rgba(var(--category-shadow), 0.3);
-        }
-        
-        .dork-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding-right: 5px;
+
+        /* Scrollbar styling for dork links */
+        .dork-links-custom-scrollbar {
             scrollbar-width: thin;
-            scrollbar-color: var(--category-color) rgba(0, 0, 0, 0.2);
+            scrollbar-color: var(--category-color, var(--neon-cyan)) rgba(0, 0, 0, 0.2);
         }
-        
-        .dork-links::-webkit-scrollbar {
+        .dork-links-custom-scrollbar::-webkit-scrollbar {
             width: 5px;
         }
-        
-        .dork-links::-webkit-scrollbar-track {
+        .dork-links-custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            border-radius: 10px; /* Tailwind: rounded-lg */
         }
-        
-        .dork-links::-webkit-scrollbar-thumb {
-            background-color: var(--category-color);
-            border-radius: 10px;
+        .dork-links-custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--category-color, var(--neon-cyan));
+            border-radius: 10px; /* Tailwind: rounded-lg */
         }
+
+        /* Category Color Variants - apply these classes to .category-container */
+        .category-access { --category-color: var(--neon-red); --category-shadow: 255, 49, 49; }
+        .category-sensitive { --category-color: var(--neon-orange); --category-shadow: 255, 153, 0; }
+        .category-files { --category-color: var(--neon-yellow); --category-shadow: 255, 255, 0; }
+        .category-exposure { --category-color: var(--neon-purple); --category-shadow: 188, 19, 254; }
+        .category-injection { --category-color: var(--neon-pink); --category-shadow: 255, 0, 255; }
+        .category-cloud { --category-color: var(--neon-blue); --category-shadow: 0, 191, 255; }
+        .category-auth { --category-color: var(--neon-green); --category-shadow: 0, 255, 153; }
+        .category-misc { --category-color: var(--neon-cyan); --category-shadow: 0, 255, 255; }
         
-        .dork-link {
-            display: block;
-            text-decoration: none;
-            color: var(--text-color);
-            padding: 20px 10px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            font-family: monospace;
-            font-size: 0.85rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            border-left: 2px solid rgba(var(--category-shadow), 0.3);
-            position: relative;
-        }
-        
-        .dork-link:hover {
-            background-color: rgba(var(--category-shadow), 0.1);
-            color: var(--category-color);
-            border-left: 2px solid var(--category-color);
-            padding-left: 15px;
-        }
-        
-        /* Category Color Variants */
-        .category-access {
-            --category-color: var(--neon-red);
-            --category-shadow: 255, 49, 49;
-        }
-        
-        .category-sensitive {
-            --category-color: var(--neon-orange);
-            --category-shadow: 255, 153, 0;
-        }
-        
-        .category-files {
-            --category-color: var(--neon-yellow);
-            --category-shadow: 255, 255, 0;
-        }
-        
-        .category-exposure {
-            --category-color: var(--neon-purple);
-            --category-shadow: 188, 19, 254;
-        }
-        
-        .category-injection {
-            --category-color: var(--neon-pink);
-            --category-shadow: 255, 0, 255;
-        }
-        
-        .category-cloud {
-            --category-color: var(--neon-blue);
-            --category-shadow: 0, 191, 255;
-        }
-        
-        .category-auth {
-            --category-color: var(--neon-green);
-            --category-shadow: 0, 255, 153;
-        }
-        
-        .category-misc {
-            --category-color: var(--neon-cyan);
-            --category-shadow: 0, 255, 255;
-        }
-        
-        /* Developer section */
-        #about-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .developer-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-        
-        @media (min-width: 992px) {
-            .developer-cards {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        .developer-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            height: 100%;
-        }
-        
-        .developer-card.founder {
-            background-color: var(--card-bg);
-        }
-        
-        .developer-card.contributor {
-            background-color: var(--card-bg-alt);
-        }
-        
-        /* Cyberpunk line patterns */
-        .developer-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(45deg, rgba(0, 255, 255, 0.05), transparent 40%),
-                linear-gradient(to right, rgba(188, 19, 254, 0.05), transparent),
-                radial-gradient(circle at bottom right, rgba(0, 255, 153, 0.05), transparent 60%);
+        /* Developer card specific styles */
+        .developer-card-founder { background-color: var(--card-bg); }
+        .developer-card-contributor { background-color: var(--card-bg-alt); }
+
+        .developer-card::before { /* Cyberpunk line patterns */
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.05), transparent 40%),
+                        linear-gradient(to right, rgba(188, 19, 254, 0.05), transparent),
+                        radial-gradient(circle at bottom right, rgba(0, 255, 153, 0.05), transparent 60%);
             z-index: 0;
         }
-        
-        /* Circuit board pattern */
-        .developer-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: 50px 50px;
-            opacity: 0.15;
-            z-index: -1;
+        .developer-card::after { /* Circuit board pattern */
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: 50px 50px; opacity: 0.05; /* Reduced opacity */ z-index: -1; /* Ensure it's behind content */
         }
-        
-        .developer-card.founder::after {
-            background-image: 
-                radial-gradient(circle at 25px 25px, var(--neon-cyan) 1px, transparent 1px),
-                linear-gradient(to right, transparent 23px, var(--neon-cyan) 1px, transparent 26px),
-                linear-gradient(to bottom, transparent 23px, var(--neon-cyan) 1px, transparent 26px);
+        .developer-card-founder::after {
+            background-image: radial-gradient(circle at 25px 25px, var(--neon-cyan) 1px, transparent 1px),
+                              linear-gradient(to right, transparent 23px, var(--neon-cyan) 1px, transparent 26px),
+                              linear-gradient(to bottom, transparent 23px, var(--neon-cyan) 1px, transparent 26px);
         }
-        
-        .developer-card.contributor::after {
-            background-image: 
-                radial-gradient(circle at 25px 25px, var(--neon-green) 1px, transparent 1px),
-                linear-gradient(to right, transparent 23px, var(--neon-green) 1px, transparent 26px),
-                linear-gradient(to bottom, transparent 23px, var(--neon-green) 1px, transparent 26px);
+        .developer-card-contributor::after {
+            background-image: radial-gradient(circle at 25px 25px, var(--neon-green) 1px, transparent 1px),
+                              linear-gradient(to right, transparent 23px, var(--neon-green) 1px, transparent 26px),
+                              linear-gradient(to bottom, transparent 23px, var(--neon-green) 1px, transparent 26px);
         }
-        
-        /* Cybersecurity corner accents */
         .developer-card .corner-tl {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 40px;
-            height: 40px;
-            border-top: 2px solid;
-            border-left: 2px solid;
-            border-top-left-radius: 7px;
+            position: absolute; top: 0; left: 0; width: 40px; height: 40px;
+            border-top: 2px solid; border-left: 2px solid; border-top-left-radius: 7px;
         }
-        
         .developer-card .corner-br {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            border-bottom: 2px solid;
-            border-right: 2px solid;
-            border-bottom-right-radius: 7px;
+            position: absolute; bottom: 0; right: 0; width: 40px; height: 40px;
+            border-bottom: 2px solid; border-right: 2px solid; border-bottom-right-radius: 7px;
         }
-        
-        .developer-card.founder .corner-tl,
-        .developer-card.founder .corner-br {
-            border-color: var(--neon-cyan);
-        }
-        
-        .developer-card.contributor .corner-tl,
-        .developer-card.contributor .corner-br {
-            border-color: var(--neon-green);
-        }
-        
-        .dev-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .dev-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .dev-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .dev-avatar::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+        .developer-card-founder .corner-tl, .developer-card-founder .corner-br { border-color: var(--neon-cyan); }
+        .developer-card-contributor .corner-tl, .developer-card-contributor .corner-br { border-color: var(--neon-green); }
+
+        .dev-avatar::before { /* Avatar border */
+            content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
+            -webkit-mask-composite: xor; mask-composite: exclude;
         }
-        
-        .founder .dev-avatar::before {
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
-        }
-        
-        .contributor .dev-avatar::before {
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
-        }
-        
-        .dev-avatar-inner {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(30, 41, 59, 1), rgba(17, 24, 39, 1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dev-avatar i {
-            font-size: 32px;
-        }
-        
-        .founder .dev-avatar i {
-            color: var(--neon-cyan);
-        }
-        
-        .contributor .dev-avatar i {
-            color: var(--neon-green);
-        }
-        
-        .dev-title {
-            flex: 1;
-        }
-        
-        .dev-title h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .founder .dev-title h3 {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-        
-        .contributor .dev-title h3 {
-            color: var(--neon-green);
-            text-shadow: 0 0 10px rgba(0, 255, 153, 0.3);
-        }
-        
-        .dev-title .dev-role {
-            font-weight: 500;
-            color: var(--text-color);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        .dev-divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(0, 255, 255, 0.2), transparent);
-            margin: 15px 0;
-        }
-        
-        .contributor .dev-divider {
-            background: linear-gradient(to right, transparent, rgba(0, 255, 153, 0.2), transparent);
-        }
-        
-        .dev-description {
-            line-height: 1.7;
-            letter-spacing: 0.3px;
-            margin-bottom: 20px;
-            color: var(--text-color);
-            font-size: 0.95rem;
-        }
-        
-        .dev-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .skill-tag {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-family: 'Share Tech Mono', monospace;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-        
-        .founder .skill-tag {
-            background-color: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            color: var(--neon-cyan);
-        }
-        
-        .founder .skill-tag:hover {
-            background-color: rgba(0, 255, 255, 0.15);
-            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
-        }
-        
-        .contributor .skill-tag {
-            background-color: rgba(0, 255, 153, 0.1);
-            border: 1px solid rgba(0, 255, 153, 0.3);
-            color: var(--neon-green);
-        }
-        
-        .contributor .skill-tag:hover {
-            background-color: rgba(0, 255, 153, 0.15);
-            box-shadow: 0 0 8px rgba(0, 255, 153, 0.3);
-        }
-        
-        .social-links {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.3);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .social-link::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            padding: 1px;
-            background: linear-gradient(45deg, var(--neon-cyan), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-        
-        .contributor .social-link::before {
-            background: linear-gradient(45deg, var(--neon-green), transparent);
-        }
-        
-        .social-link:hover {
-            transform: translateY(-3px);
-        }
-        
-        .founder .social-link:hover {
-            color: var(--neon-cyan);
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
-        }
-        
-        .contributor .social-link:hover {
-            color: var(--neon-green);
-            box-shadow: 0 5px 15px rgba(0, 255, 153, 0.2);
-        }
-        
-        .social-link:hover::before {
-            opacity: 1;
-        }
-        
-        /* Data breach animation */
-        .data-breach {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            z-index: 2;
-        }
-        
-        .data-breach::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 255, 0.5) 70%);
+        .developer-card-founder .dev-avatar::before { background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple)); }
+        .developer-card-contributor .dev-avatar::before { background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); }
+
+        .data-breach-animated::before { /* Data breach icon pulse */
+            content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%;
             animation: pulse 2s infinite;
         }
-        
-        .contributor .data-breach::before {
-            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 153, 0.5) 70%);
-        }
-        
-        .data-breach i {
-            font-size: 18px;
-        }
-        
-        .founder .data-breach i {
-            color: var(--neon-cyan);
-        }
-        
-        .contributor .data-breach i {
-            color: var(--neon-green);
-        }
-        
-        .about-title-container {
-            position: relative;
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-        }
-        
-        .about-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            position: relative;
-            display: inline-block;
-            z-index: 1;
-        }
-        
-        .about-title-container::before {
-            content: "10010110 01101001 10011001";
-            position: absolute;
-            bottom: -20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
+        .developer-card-founder .data-breach-animated::before { background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 255, 0.5) 70%); }
+        .developer-card-contributor .data-breach-animated::before { background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0, 255, 153, 0.5) 70%); }
+
+        /* Custom Toast Notification */
+        #toast-notification {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--neon-cyan);
-            opacity: 0.2;
-            letter-spacing: 2px;
         }
-        
-        .about-title-container::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
+
+        /* FadeIn animation for About section */
+         @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .dork-sections {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
+        .fade-in-animation {
+            animation: fadeIn 0.5s ease;
         }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-                padding: 15px 1rem;
-            }
-            
-            .buttons-container {
-                flex-direction: column;
-            }
-            
-            .logo {
-                font-size: 1.8rem;
-            }
-            
-            .nav-links {
-                gap: 10px;
-            }
-            
-            .dev-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-            
-            .developer-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .dork-sections {
-                grid-template-columns: 1fr;
-            }
-        }
+
     </style>
+    <script>
+      // Tailwind configuration (optional, for custom fonts etc.)
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'roboto': ['Roboto', 'sans-serif'],
+              'orbitron': ['Orbitron', 'sans-serif'],
+              'share-tech-mono': ['"Share Tech Mono"', 'monospace'],
+              'rajdhani': ['Rajdhani', 'sans-serif'],
+            },
+            colors: {
+              'neon-cyan': '#00ffff',
+              'neon-green': '#00ff99',
+              'neon-purple': '#bc13fe',
+              'neon-pink': '#ff00ff',
+              'neon-blue': '#00bfff',
+              'neon-yellow': '#ffff00',
+              'neon-red': '#ff3131',
+              'neon-orange': '#ff9900',
+              'dark-bg': '#0c1016',
+              'darker-bg': '#0a0e14',
+              'nav-bg': '#080c12',
+              'card-bg': '#111824',
+              'card-bg-alt': '#14131c',
+            }
+          }
+        }
+      }
+    </script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="logo-container">
-            <div class="logo">Google Dorks</div>
-            <div class="tagline">Bug Bounty Dork Generator</div>
+<body class="font-roboto bg-dark-bg text-gray-200">
+
+    <nav class="navbar bg-nav-bg p-4 md:px-8 flex flex-col md:flex-row justify-between items-center border-b border-neon-cyan/10 relative overflow-hidden z-50">
+        <div class="logo-container flex flex-col items-center md:items-start">
+            <div class="logo font-orbitron text-3xl md:text-4xl font-bold text-neon-cyan relative" style="text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">Google Dorks</div>
+            <div class="tagline font-share-tech-mono text-sm text-gray-500 -mt-1">Bug Bounty Dork Generator</div>
         </div>
-        <div class="nav-links">
-            <a href="#" id="home-link" class="active">Home</a>
-            <a href="#" id="bug-bounty-link">Bug Bounty</a>
-            <a href="#" id="about-link">About Developers</a>
+        <div class="nav-links flex gap-4 md:gap-6 mt-3 md:mt-0">
+            <a href="#" id="home-link" class="font-share-tech-mono text-gray-200 hover:text-neon-cyan px-3 py-2 relative transition-all duration-300 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-px after:bg-neon-cyan after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+            <a href="#" id="bug-bounty-link" class="font-share-tech-mono text-gray-200 hover:text-neon-cyan px-3 py-2 relative transition-all duration-300 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-px after:bg-neon-cyan after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-full">Bug Bounty</a>
+            <a href="#" id="about-link" class="font-share-tech-mono text-gray-200 hover:text-neon-cyan px-3 py-2 relative transition-all duration-300 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-px after:bg-neon-cyan after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-full">About Developers</a>
         </div>
     </nav>
-    
-    <div class="container">
-        <!-- Bug Bounty Section -->
-        <div id="bug-bounty-section" class="dork-card">
-            <!-- Digital Matrix Background -->
-            <div class="matrix-bg" id="matrix-background">
-                <!-- Generated dynamically with JS -->
-            </div>
+
+    <div class="container max-w-6xl mx-auto p-4 md:p-8 relative z-10">
+        <div id="bug-bounty-section" class="dork-card-main bg-card-bg rounded-lg p-6 md:p-8 mb-8 shadow-2xl relative overflow-hidden border border-neon-cyan/10">
+            <div class="matrix-bg absolute inset-0 overflow-hidden z-0 opacity-[0.05]" id="matrix-background">
+                </div>
             
-            <h2 class="section-title">BUG BOUNTY DORK GENERATOR</h2>
+            <h2 class="section-title text-center text-neon-cyan font-orbitron text-2xl md:text-3xl mb-8 relative inline-block w-full z-10" style="text-shadow: 0 0 10px rgba(0, 255, 255, 0.3); letter-spacing: 2px;">
+                BUG BOUNTY DORK GENERATOR
+                <span class="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-neon-cyan to-transparent"></span>
+            </h2>
             
-            <div class="input-container">
-                <i class="fas fa-globe input-icon"></i>
-                <input type="text" id="domain-input" class="input-field" placeholder="Enter domain (e.g., example.com)">
-                <div class="input-scan"></div>
-            </div>
+            <div class="input-container relative mb-6 z-10">
+                <i class="fas fa-globe absolute left-4 top-1/2 -translate-y-1/2 text-neon-cyan z-10"></i>
+                <input type="text" id="domain-input" class="input-field font-share-tech-mono w-full p-4 pl-12 bg-black/30 border border-neon-cyan/20 text-gray-200 text-base rounded-md focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_10px_rgba(0,255,255,0.3)] transition-all duration-300 relative z-[5]" placeholder="Enter domain (e.g., example.com)">
+                <div class="input-scan"></div> </div>
             
-            <div class="buttons-container">
-                <button class="btn btn-bounty" onclick="generateBugBountyDorks()">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Generate Bug Bounty Dorks</span>
+            <div class="buttons-container flex flex-col sm:flex-row justify-center gap-4 mb-8 z-10 relative">
+                <button class="btn btn-sheen font-share-tech-mono bg-neon-cyan text-slate-900 font-semibold px-6 py-3 rounded-md flex items-center justify-center gap-3 relative overflow-hidden transition-all duration-300 hover:bg-cyan-400 hover:shadow-[0_0_15px_rgba(0,255,255,0.6)]" onclick="generateBugBountyDorks()">
+                    <i class="fas fa-shield-alt text-xl z-[2]"></i>
+                    <span class="z-[2]">Generate Bug Bounty Dorks</span>
                 </button>
             </div>
             
-            <div id="loading" class="loading-container">
-                <div class="cyber-loader"></div>
-                <div class="loading-text">Generating vulnerability dorks</div>
+            <div id="loading" class="loading-container hidden text-center my-5 z-10 relative">
+                <div class="cyber-loader inline-block w-12 h-12 relative"></div>
+                <div class="loading-text-animated font-share-tech-mono text-neon-cyan mt-2 relative" style="text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); letter-spacing: 1px;">Generating vulnerability dorks</div>
             </div>
             
-            <div id="results" class="results-container">
-                <h3 class="results-title">
-                    <i class="fas fa-fingerprint"></i>
-                    <span>Bug Bounty Dorks for: <span id="domain-display"></span></span>
+            <div id="results" class="results-container mt-10 hidden z-10 relative">
+                <h3 class="results-title font-orbitron text-xl text-neon-cyan mb-5 pb-2.5 border-b border-neon-cyan/20 flex items-center gap-2.5" style="text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);">
+                    <i class="fas fa-fingerprint text-lg results-title-icon"></i>
+                    <span>Bug Bounty Dorks for: <span id="domain-display" class="font-semibold"></span></span>
                 </h3>
-                <div id="results-content" class="dork-sections"></div>
+                <div id="results-content" class="dork-sections grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    </div>
             </div>
         </div>
-        
-        <!-- About Developer Section -->
-        <div id="about-section">
-            <div class="about-title-container">
-                <h2 class="about-title">THE SECURITY TEAM</h2>
+
+        <div id="about-section" class="hidden">
+            <div class="about-title-container relative text-center mb-8 pb-2.5">
+                <h2 class="about-title font-orbitron text-3xl md:text-4xl text-neon-cyan relative inline-block z-10" style="text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">
+                    THE SECURITY TEAM
+                </h2>
+                <span class="absolute bottom-[-20px] left-0 w-full text-center font-share-tech-mono text-xs text-neon-cyan opacity-20 tracking-wider">10010110 01101001 10011001</span>
+                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-neon-cyan to-transparent"></span>
             </div>
             
-            <div class="developer-cards">
-                <!-- Founder Profile -->
-                <div class="developer-card founder">
-                    <div class="corner-tl"></div>
-                    <div class="corner-br"></div>
-                    <div class="data-breach">
-                        <i class="fas fa-shield-alt"></i>
+            <div class="developer-cards grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="developer-card developer-card-founder rounded-lg p-6 md:p-8 relative overflow-hidden border border-neon-cyan/5 shadow-xl h-full">
+                    <div class="corner-tl"></div> <div class="corner-br"></div>
+                    <div class="data-breach-animated absolute top-2.5 right-2.5 w-10 h-10 flex items-center justify-center rounded-full z-[2]">
+                        <i class="fas fa-shield-alt text-lg text-neon-cyan"></i>
                     </div>
                     
-                    <div class="dev-content">
-                        <div class="dev-header">
-                            <div class="dev-avatar">
-                                <div class="dev-avatar-inner">
-                                    <i class="fas fa-user-secret"></i>
+                    <div class="dev-content relative z-10">
+                        <div class="dev-header flex flex-col sm:flex-row items-center gap-5 mb-5">
+                            <div class="dev-avatar w-20 h-20 rounded-full flex items-center justify-center relative">
+                                <div class="dev-avatar-inner w-[72px] h-[72px] rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                                    <i class="fas fa-user-secret text-3xl text-neon-cyan"></i>
                                 </div>
                             </div>
-                            <div class="dev-title">
-                                <h3>NeXus</h3>
-                                <div class="dev-role">Founder & Lead Security Researcher</div>
+                            <div class="dev-title flex-1 text-center sm:text-left">
+                                <h3 class="font-orbitron text-2xl mb-1 text-neon-cyan" style="text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);">NeXus</h3>
+                                <div class="dev-role font-share-tech-mono text-sm text-gray-200 opacity-80">Founder & Lead Security Researcher</div>
                             </div>
                         </div>
-                        
-                        <div class="dev-divider"></div>
-                        
-                        <div class="dev-description">
+                        <div class="dev-divider w-full h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent my-4"></div>
+                        <div class="dev-description text-gray-300 text-sm leading-relaxed mb-5 space-y-3">
                             <p>A veteran in cybersecurity with over a decade of experience exposing vulnerabilities in high-profile systems. I specialize in discovering zero-day exploits and have responsibly disclosed critical security flaws to major tech companies across the globe.</p>
                             <p>My approach combines advanced automation with creative manual techniques to uncover security issues that conventional methods often miss. I've developed several custom vulnerability assessment tools that have revolutionized how security teams approach threat detection.</p>
                             <p>As an active participant in the security community, I regularly contribute to open-source security projects and mentor emerging ethical hackers. My research has been featured at prestigious security conferences including DEF CON, Black Hat, and OWASP Global AppSec.</p>
                         </div>
-                        
-                        <div class="dev-skills">
-                            <span class="skill-tag">Zero-Day Research</span>
-                            <span class="skill-tag">Advanced Exploit Development</span>
-                            <span class="skill-tag">Red Team Operations</span>
-                            <span class="skill-tag">Reverse Engineering</span>
-                            <span class="skill-tag">Threat Intelligence</span>
-                            <span class="skill-tag">Cloud Security</span>
-                            <span class="skill-tag">Binary Analysis</span>
+                        <div class="dev-skills flex flex-wrap gap-2.5 mt-5">
+                            <span class="skill-tag bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-cyan/20 hover:shadow-[0_0_8px_rgba(0,255,255,0.3)] transition-all">Zero-Day Research</span>
+                            <span class="skill-tag bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-cyan/20 hover:shadow-[0_0_8px_rgba(0,255,255,0.3)] transition-all">Advanced Exploit Development</span>
+                            <span class="skill-tag bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-cyan/20 hover:shadow-[0_0_8px_rgba(0,255,255,0.3)] transition-all">Red Team Operations</span>
+                            <span class="skill-tag bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-cyan/20 hover:shadow-[0_0_8px_rgba(0,255,255,0.3)] transition-all">Reverse Engineering</span>
+                            <span class="skill-tag bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-cyan/20 hover:shadow-[0_0_8px_rgba(0,255,255,0.3)] transition-all">Threat Intelligence</span>
                         </div>
-                        
-                        <div class="social-links">
-                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-hackerrank"></i></a>
+                        <div class="social-links mt-6 flex gap-4">
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-cyan hover:shadow-[0_5px_15px_rgba(0,255,255,0.2)] hover:-translate-y-0.5"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-cyan hover:shadow-[0_5px_15px_rgba(0,255,255,0.2)] hover:-translate-y-0.5"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-cyan hover:shadow-[0_5px_15px_rgba(0,255,255,0.2)] hover:-translate-y-0.5"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-cyan hover:shadow-[0_5px_15px_rgba(0,255,255,0.2)] hover:-translate-y-0.5"><i class="fas fa-globe"></i></a>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Contributor Profile -->
-                <div class="developer-card contributor">
-                    <div class="corner-tl"></div>
-                    <div class="corner-br"></div>
-                    <div class="data-breach">
-                        <i class="fas fa-code"></i>
+                <div class="developer-card developer-card-contributor rounded-lg p-6 md:p-8 relative overflow-hidden border border-neon-green/5 shadow-xl h-full">
+                    <div class="corner-tl"></div> <div class="corner-br"></div>
+                    <div class="data-breach-animated absolute top-2.5 right-2.5 w-10 h-10 flex items-center justify-center rounded-full z-[2]">
+                        <i class="fas fa-code text-lg text-neon-green"></i>
                     </div>
-                    
-                    <div class="dev-content">
-                        <div class="dev-header">
-                            <div class="dev-avatar">
-                                <div class="dev-avatar-inner">
-                                    <i class="fas fa-laptop-code"></i>
+                    <div class="dev-content relative z-10">
+                        <div class="dev-header flex flex-col sm:flex-row items-center gap-5 mb-5">
+                            <div class="dev-avatar w-20 h-20 rounded-full flex items-center justify-center relative">
+                                <div class="dev-avatar-inner w-[72px] h-[72px] rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                                    <i class="fas fa-laptop-code text-3xl text-neon-green"></i>
                                 </div>
                             </div>
-                            <div class="dev-title">
-                                <h3>Cipher</h3>
-                                <div class="dev-role">Co-Author & Security Engineer</div>
+                            <div class="dev-title flex-1 text-center sm:text-left">
+                                <h3 class="font-orbitron text-2xl mb-1 text-neon-green" style="text-shadow: 0 0 10px rgba(0, 255, 153, 0.3);">Cipher</h3>
+                                <div class="dev-role font-share-tech-mono text-sm text-gray-200 opacity-80">Co-Author & Security Engineer</div>
                             </div>
                         </div>
-                        
-                        <div class="dev-divider"></div>
-                        
-                        <div class="dev-description">
-                            <p>A specialist in web application security and API vulnerabilities with expertise in automated security testing and DevSecOps integration. I've helped secure critical infrastructure for Fortune 500 companies and government agencies through innovative security solutions.</p>
-                            <p>My approach focuses on developing efficient methodologies that blend security with development workflows, allowing organizations to implement "security as code" principles. I've built several automated scanning frameworks that detect complex vulnerabilities in modern web architectures.</p>
-                            <p>I'm passionate about knowledge sharing and have authored comprehensive security guides that bridge the gap between theoretical concepts and practical implementation. My contributions to bug bounty platforms have helped identify and remediate numerous critical vulnerabilities.</p>
+                        <div class="dev-divider w-full h-px bg-gradient-to-r from-transparent via-neon-green/20 to-transparent my-4"></div>
+                        <div class="dev-description text-gray-300 text-sm leading-relaxed mb-5 space-y-3">
+                             <p>A specialist in web application security and API vulnerabilities with expertise in automated security testing and DevSecOps integration. I've helped secure critical infrastructure for Fortune 500 companies and government agencies through innovative security solutions.</p>
+                             <p>My approach focuses on developing efficient methodologies that blend security with development workflows, allowing organizations to implement "security as code" principles. I've built several automated scanning frameworks that detect complex vulnerabilities in modern web architectures.</p>
+                             <p>I'm passionate about knowledge sharing and have authored comprehensive security guides that bridge the gap between theoretical concepts and practical implementation. My contributions to bug bounty platforms have helped identify and remediate numerous critical vulnerabilities.</p>
                         </div>
-                        
-                        <div class="dev-skills">
-                            <span class="skill-tag">Web App Security</span>
-                            <span class="skill-tag">API Security Testing</span>
-                            <span class="skill-tag">DevSecOps</span>
-                            <span class="skill-tag">OSINT Techniques</span>
-                            <span class="skill-tag">Secure Code Review</span>
-                            <span class="skill-tag">Automation</span>
-                            <span class="skill-tag">Bug Bounty</span>
+                        <div class="dev-skills flex flex-wrap gap-2.5 mt-5">
+                            <span class="skill-tag bg-neon-green/10 border border-neon-green/30 text-neon-green px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-green/20 hover:shadow-[0_0_8px_rgba(0,255,153,0.3)] transition-all">Web App Security</span>
+                            <span class="skill-tag bg-neon-green/10 border border-neon-green/30 text-neon-green px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-green/20 hover:shadow-[0_0_8px_rgba(0,255,153,0.3)] transition-all">API Security Testing</span>
+                            <span class="skill-tag bg-neon-green/10 border border-neon-green/30 text-neon-green px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-green/20 hover:shadow-[0_0_8px_rgba(0,255,153,0.3)] transition-all">DevSecOps</span>
+                            <span class="skill-tag bg-neon-green/10 border border-neon-green/30 text-neon-green px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-green/20 hover:shadow-[0_0_8px_rgba(0,255,153,0.3)] transition-all">OSINT Techniques</span>
+                            <span class="skill-tag bg-neon-green/10 border border-neon-green/30 text-neon-green px-3 py-1.5 rounded-full text-xs font-share-tech-mono tracking-wide hover:bg-neon-green/20 hover:shadow-[0_0_8px_rgba(0,255,153,0.3)] transition-all">Automation</span>
                         </div>
-                        
-                        <div class="social-links">
-                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="social-link"><i class="fas fa-book"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-medium"></i></a>
+                        <div class="social-links mt-6 flex gap-4">
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-green hover:shadow-[0_5px_15px_rgba(0,255,153,0.2)] hover:-translate-y-0.5"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-green hover:shadow-[0_5px_15px_rgba(0,255,153,0.2)] hover:-translate-y-0.5"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-green hover:shadow-[0_5px_15px_rgba(0,255,153,0.2)] hover:-translate-y-0.5"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link w-9 h-9 rounded-full bg-black/30 text-gray-300 flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:text-neon-green hover:shadow-[0_5px_15px_rgba(0,255,153,0.2)] hover:-translate-y-0.5"><i class="fas fa-book"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-neon-red text-white px-6 py-3 rounded-lg shadow-lg text-sm z-[1000] transition-opacity duration-300 opacity-0 pointer-events-none">
+        Please enter a valid domain (e.g., example.com)
+    </div>
+
     <script>
-        // Enhanced Bug Bounty Dork Categories with visual attributes
+        // --- Global Variables and Configuration ---
         const bugBountyCategories = [
             {
                 name: "Admin & Login Pages",
                 icon: "fas fa-user-lock",
                 className: "category-access",
                 dorks: [
-                    "site:{domain} inurl:admin",
-                    "site:{domain} inurl:login",
-                    "site:{domain} inurl:dashboard",
-                    "site:{domain} inurl:wp-admin",
-                    "site:{domain} inurl:controlpanel",
-                    "site:{domain} inurl:adminpanel",
-                    "site:{domain} inurl:administrator",
-                    "site:{domain} inurl:moderator",
-                    "site:{domain} inurl:webadmin",
-                    "site:{domain} inurl:backoffice",
-                    "site:{domain} inurl:backend",
-                    "site:{domain} inurl:auth",
-                    "site:{domain} inurl:portal",
-                    "site:{domain} inurl:staff",
-                    "site:{domain} inurl:manage"
+                    "site:{domain} inurl:admin", "site:{domain} inurl:login", "site:{domain} inurl:dashboard", "site:{domain} inurl:wp-admin", "site:{domain} inurl:controlpanel", "site:{domain} inurl:adminpanel", "site:{domain} inurl:administrator", "site:{domain} inurl:moderator", "site:{domain} inurl:webadmin", "site:{domain} inurl:backoffice", "site:{domain} inurl:backend", "site:{domain} inurl:auth", "site:{domain} inurl:portal", "site:{domain} inurl:staff", "site:{domain} inurl:manage"
                 ]
             },
             {
@@ -1341,24 +537,7 @@
                 icon: "fas fa-key",
                 className: "category-sensitive",
                 dorks: [
-                    "site:{domain} \"password\"",
-                    "site:{domain} \"config\"",
-                    "site:{domain} \"credentials\"",
-                    "site:{domain} \"secret\"",
-                    "site:{domain} \"api_key\"",
-                    "site:{domain} \"private key\"",
-                    "site:{domain} \"client_secret\"",
-                    "site:{domain} \"access_token\"",
-                    "site:{domain} \"dbpassword\"",
-                    "site:{domain} \"authorize\"",
-                    "site:{domain} \"confidential\"",
-                    "site:{domain} \"ssh key\"",
-                    "site:{domain} \"passwd\"",
-                    "site:{domain} \"authorization_bearer\"",
-                    "site:{domain} \"auth_token\"",
-                    "site:{domain} \"oauth_token\"",
-                    "site:{domain} \"token\"",
-                    "site:{domain} \"refresh_token\""
+                    "site:{domain} \"password\"", "site:{domain} \"config\"", "site:{domain} \"credentials\"", "site:{domain} \"secret\"", "site:{domain} \"api_key\"", "site:{domain} \"private key\"", "site:{domain} \"client_secret\"", "site:{domain} \"access_token\"", "site:{domain} \"dbpassword\"", "site:{domain} \"authorize\"", "site:{domain} \"confidential\"", "site:{domain} \"ssh key\"", "site:{domain} \"passwd\"", "site:{domain} \"authorization_bearer\"", "site:{domain} \"auth_token\"", "site:{domain} \"oauth_token\"", "site:{domain} \"token\"", "site:{domain} \"refresh_token\""
                 ]
             },
             {
@@ -1366,24 +545,7 @@
                 icon: "fas fa-file-alt",
                 className: "category-files",
                 dorks: [
-                    "site:{domain} filetype:pdf",
-                    "site:{domain} filetype:doc OR filetype:docx",
-                    "site:{domain} filetype:xls OR filetype:xlsx",
-                    "site:{domain} filetype:ppt OR filetype:pptx",
-                    "site:{domain} filetype:txt",
-                    "site:{domain} filetype:csv",
-                    "site:{domain} filetype:zip OR filetype:rar OR filetype:tar OR filetype:gz",
-                    "site:{domain} filetype:sql",
-                    "site:{domain} filetype:bak",
-                    "site:{domain} filetype:log",
-                    "site:{domain} filetype:xml",
-                    "site:{domain} filetype:json",
-                    "site:{domain} filetype:env",
-                    "site:{domain} filetype:conf",
-                    "site:{domain} filetype:yaml OR filetype:yml",
-                    "site:{domain} filetype:rsa OR filetype:pem OR filetype:key",
-                    "site:{domain} filetype:svg",
-                    "site:{domain} filetype:jsp OR filetype:asp OR filetype:aspx OR filetype:php"
+                    "site:{domain} filetype:pdf", "site:{domain} filetype:doc OR filetype:docx", "site:{domain} filetype:xls OR filetype:xlsx", "site:{domain} filetype:ppt OR filetype:pptx", "site:{domain} filetype:txt", "site:{domain} filetype:csv", "site:{domain} filetype:zip OR filetype:rar OR filetype:tar OR filetype:gz", "site:{domain} filetype:sql", "site:{domain} filetype:bak", "site:{domain} filetype:log", "site:{domain} filetype:xml", "site:{domain} filetype:json", "site:{domain} filetype:env", "site:{domain} filetype:conf", "site:{domain} filetype:yaml OR filetype:yml", "site:{domain} filetype:rsa OR filetype:pem OR filetype:key", "site:{domain} filetype:svg", "site:{domain} filetype:jsp OR filetype:asp OR filetype:aspx OR filetype:php"
                 ]
             },
             {
@@ -1391,24 +553,7 @@
                 icon: "fas fa-folder-open",
                 className: "category-exposure",
                 dorks: [
-                    "site:{domain} intitle:\"index of\"",
-                    "site:{domain} inurl:ftp",
-                    "site:{domain} inurl:uploads",
-                    "site:{domain} intext:\"Index of /\"",
-                    "site:{domain} intitle:\"Directory Listing For\"",
-                    "site:{domain} intext:\"Parent Directory\"",
-                    "site:{domain} intitle:\"Index of\" intext:\".env\"",
-                    "site:{domain} intitle:\"Index of\" intext:\"config.php\"",
-                    "site:{domain} intitle:\"Index of\" intext:\"credentials\"",
-                    "site:{domain} intitle:\"Index of /backup\"",
-                    "site:{domain} intitle:\"Index of /admin\"",
-                    "site:{domain} intitle:\"Index of /config\"",
-                    "site:{domain} intitle:\"Index of /database\"",
-                    "site:{domain} intitle:\"Index of /password\"",
-                    "site:{domain} intitle:\"Index of /private\"",
-                    "site:{domain} intitle:\"Index of /wp-content/\"",
-                    "site:{domain} intitle:\"Index of /download\"",
-                    "site:{domain} intitle:\"Index of /logs\""
+                    "site:{domain} intitle:\"index of\"", "site:{domain} inurl:ftp", "site:{domain} inurl:uploads", "site:{domain} intext:\"Index of /\"", "site:{domain} intitle:\"Directory Listing For\"", "site:{domain} intext:\"Parent Directory\"", "site:{domain} intitle:\"Index of\" intext:\".env\"", "site:{domain} intitle:\"Index of\" intext:\"config.php\"", "site:{domain} intitle:\"Index of\" intext:\"credentials\"", "site:{domain} intitle:\"Index of /backup\"", "site:{domain} intitle:\"Index of /admin\"", "site:{domain} intitle:\"Index of /config\"", "site:{domain} intitle:\"Index of /database\"", "site:{domain} intitle:\"Index of /password\"", "site:{domain} intitle:\"Index of /private\"", "site:{domain} intitle:\"Index of /wp-content/\"", "site:{domain} intitle:\"Index of /download\"", "site:{domain} intitle:\"Index of /logs\""
                 ]
             },
             {
@@ -1416,24 +561,7 @@
                 icon: "fas fa-cogs",
                 className: "category-sensitive",
                 dorks: [
-                    "site:{domain} \"config.php\"",
-                    "site:{domain} \"settings.py\"",
-                    "site:{domain} \"database.yml\"",
-                    "site:{domain} \"web.config\"",
-                    "site:{domain} inurl:\".env\"",
-                    "site:{domain} inurl:\"wp-config.php\"",
-                    "site:{domain} inurl:\"configuration.php\"",
-                    "site:{domain} inurl:\"settings.json\"",
-                    "site:{domain} inurl:\"config.json\"",
-                    "site:{domain} inurl:\"application.yaml\"",
-                    "site:{domain} inurl:\"config.inc.php\"",
-                    "site:{domain} inurl:\"configuration.xml\"",
-                    "site:{domain} inurl:\"app.config\"",
-                    "site:{domain} inurl:\"application.properties\"",
-                    "site:{domain} inurl:\"appsettings.json\"",
-                    "site:{domain} inurl:\".npmrc\" OR inurl:\".yarnrc\"",
-                    "site:{domain} inurl:\"docker-compose.yml\"",
-                    "site:{domain} inurl:\"Dockerfile\""
+                    "site:{domain} \"config.php\"", "site:{domain} \"settings.py\"", "site:{domain} \"database.yml\"", "site:{domain} \"web.config\"", "site:{domain} inurl:\".env\"", "site:{domain} inurl:\"wp-config.php\"", "site:{domain} inurl:\"configuration.php\"", "site:{domain} inurl:\"settings.json\"", "site:{domain} inurl:\"config.json\"", "site:{domain} inurl:\"application.yaml\"", "site:{domain} inurl:\"config.inc.php\"", "site:{domain} inurl:\"configuration.xml\"", "site:{domain} inurl:\"app.config\"", "site:{domain} inurl:\"application.properties\"", "site:{domain} inurl:\"appsettings.json\"", "site:{domain} inurl:\".npmrc\" OR inurl:\".yarnrc\"", "site:{domain} inurl:\"docker-compose.yml\"", "site:{domain} inurl:\"Dockerfile\""
                 ]
             },
             {
@@ -1441,53 +569,15 @@
                 icon: "fas fa-plug",
                 className: "category-auth",
                 dorks: [
-                    "site:{domain} inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3",
-                    "site:{domain} intext:\"api documentation\"",
-                    "site:{domain} inurl:swagger | inurl:api-docs",
-                    "site:{domain} inurl:api/admin",
-                    "site:{domain} inurl:api/users",
-                    "site:{domain} inurl:api/auth",
-                    "site:{domain} inurl:graphql",
-                    "site:{domain} inurl:api.php",
-                    "site:{domain} inurl:api/v1/auth",
-                    "site:{domain} inurl:graphiql",
-                    "site:{domain} inurl:graphql.php",
-                    "site:{domain} inurl:graphql/console",
-                    "site:{domain} \"query {\" \"__schema\"",
-                    "site:{domain} intitle:\"GraphiQL\"",
-                    "site:{domain} inurl:playground",
-                    "site:{domain} inurl:api/token",
-                    "site:{domain} inurl:api/v1/user",
-                    "site:{domain} inurl:api/data",
-                    "site:{domain} inurl:api/password/reset",
-                    "site:{domain} inurl:graphql intext:\"query\" intext:\"mutation\""
+                    "site:{domain} inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3", "site:{domain} intext:\"api documentation\"", "site:{domain} inurl:swagger | inurl:api-docs", "site:{domain} inurl:api/admin", "site:{domain} inurl:api/users", "site:{domain} inurl:api/auth", "site:{domain} inurl:graphql", "site:{domain} inurl:api.php", "site:{domain} inurl:api/v1/auth", "site:{domain} inurl:graphiql", "site:{domain} inurl:graphql.php", "site:{domain} inurl:graphql/console", "site:{domain} \"query {\" \"__schema\"", "site:{domain} intitle:\"GraphiQL\"", "site:{domain} inurl:playground", "site:{domain} inurl:api/token", "site:{domain} inurl:api/v1/user", "site:{domain} inurl:api/data", "site:{domain} inurl:api/password/reset", "site:{domain} inurl:graphql intext:\"query\" intext:\"mutation\""
                 ]
             },
-            {
+             {
                 name: "Authentication Issues",
                 icon: "fas fa-unlock-alt",
                 className: "category-auth",
                 dorks: [
-                    "site:{domain} intext:\"jwt token\"",
-                    "site:{domain} intext:\"Bearer eyJ\"",
-                    "site:{domain} intext:\"Authorization: Bearer\"",
-                    "site:{domain} inurl:jwt",
-                    "site:{domain} inurl:callback",
-                    "site:{domain} inurl:oauth/authorize",
-                    "site:{domain} inurl:redirect_uri",
-                    "site:{domain} inurl:return_to",
-                    "site:{domain} inurl:oauth/token",
-                    "site:{domain} inurl:client_id",
-                    "site:{domain} inurl:response_type=token",
-                    "site:{domain} inurl:saml",
-                    "site:{domain} inurl:openid",
-                    "site:{domain} inurl:authorize",
-                    "site:{domain} inurl:auth/callback",
-                    "site:{domain} inurl:sso",
-                    "site:{domain} inurl:forgot-password",
-                    "site:{domain} inurl:reset",
-                    "site:{domain} inurl:verify",
-                    "site:{domain} inurl:2fa"
+                    "site:{domain} intext:\"jwt token\"", "site:{domain} intext:\"Bearer eyJ\"", "site:{domain} intext:\"Authorization: Bearer\"", "site:{domain} inurl:jwt", "site:{domain} inurl:callback", "site:{domain} inurl:oauth/authorize", "site:{domain} inurl:redirect_uri", "site:{domain} inurl:return_to", "site:{domain} inurl:oauth/token", "site:{domain} inurl:client_id", "site:{domain} inurl:response_type=token", "site:{domain} inurl:saml", "site:{domain} inurl:openid", "site:{domain} inurl:authorize", "site:{domain} inurl:auth/callback", "site:{domain} inurl:sso", "site:{domain} inurl:forgot-password", "site:{domain} inurl:reset", "site:{domain} inurl:verify", "site:{domain} inurl:2fa"
                 ]
             },
             {
@@ -1495,15 +585,7 @@
                 icon: "fas fa-exchange-alt",
                 className: "category-misc",
                 dorks: [
-                    "site:{domain} intext:\"Access-Control-Allow-Origin: *\"",
-                    "site:{domain} intext:\"Access-Control-Allow-Credentials: true\"",
-                    "site:{domain} intext:\"crossorigin\"",
-                    "site:{domain} intext:\"X-XSS-Protection: 0\"",
-                    "site:{domain} intext:\"Content-Security-Policy\"",
-                    "site:{domain} intext:\"X-Frame-Options: DENY\"",
-                    "site:{domain} intext:\"Strict-Transport-Security\"",
-                    "site:{domain} intext:\"Access-Control-Expose-Headers\"",
-                    "site:{domain} intext:\"X-Content-Type-Options\""
+                    "site:{domain} intext:\"Access-Control-Allow-Origin: *\"", "site:{domain} intext:\"Access-Control-Allow-Credentials: true\"", "site:{domain} intext:\"crossorigin\"", "site:{domain} intext:\"X-XSS-Protection: 0\"", "site:{domain} intext:\"Content-Security-Policy\"", "site:{domain} intext:\"X-Frame-Options: DENY\"", "site:{domain} intext:\"Strict-Transport-Security\"", "site:{domain} intext:\"Access-Control-Expose-Headers\"", "site:{domain} intext:\"X-Content-Type-Options\""
                 ]
             },
             {
@@ -1511,51 +593,15 @@
                 icon: "fas fa-cloud",
                 className: "category-cloud",
                 dorks: [
-                    "site:s3.amazonaws.com \"{domain}\"",
-                    "site:blob.core.windows.net \"{domain}\"",
-                    "site:googleapis.com \"{domain}\"",
-                    "site:drive.google.com \"{domain}\"",
-                    "site:dev.azure.com \"{domain}\"",
-                    "site:onedrive.live.com \"{domain}\"",
-                    "site:digitaloceanspaces.com \"{domain}\"",
-                    "site:sharepoint.com \"{domain}\"",
-                    "site:s3-external-1.amazonaws.com \"{domain}\"",
-                    "site:s3.dualstack.us-east-1.amazonaws.com \"{domain}\"",
-                    "site:dropbox.com/s \"{domain}\"",
-                    "site:box.com/s \"{domain}\"",
-                    "site:docs.google.com inurl:\"/d/\" \"{domain}\"",
-                    "site:storage.googleapis.com \"{domain}\"",
-                    "site:amazonaws.com intext:\"{domain}\"",
-                    "site:firebasestorage.googleapis.com \"{domain}\"",
-                    "site:firebase.io \"{domain}\"",
-                    "site:firebaseio.com \"{domain}\"",
-                    "site:\"{domain}\".s3.amazonaws.com",
-                    "site:storage.cloud.google.com \"{domain}\"",
-                    "site:azurewebsites.net \"{domain}\"",
-                    "site:cloudfront.net \"{domain}\""
+                    "site:s3.amazonaws.com \"{domain}\"", "site:blob.core.windows.net \"{domain}\"", "site:googleapis.com \"{domain}\"", "site:drive.google.com \"{domain}\"", "site:dev.azure.com \"{domain}\"", "site:onedrive.live.com \"{domain}\"", "site:digitaloceanspaces.com \"{domain}\"", "site:sharepoint.com \"{domain}\"", "site:s3-external-1.amazonaws.com \"{domain}\"", "site:s3.dualstack.us-east-1.amazonaws.com \"{domain}\"", "site:dropbox.com/s \"{domain}\"", "site:box.com/s \"{domain}\"", "site:docs.google.com inurl:\"/d/\" \"{domain}\"", "site:storage.googleapis.com \"{domain}\"", "site:amazonaws.com intext:\"{domain}\"", "site:firebasestorage.googleapis.com \"{domain}\"", "site:firebase.io \"{domain}\"", "site:firebaseio.com \"{domain}\"", "site:\"{domain}\".s3.amazonaws.com", "site:storage.cloud.google.com \"{domain}\"", "site:azurewebsites.net \"{domain}\"", "site:cloudfront.net \"{domain}\""
                 ]
             },
             {
                 name: "WebSockets & Mobile APIs",
                 icon: "fas fa-mobile-alt",
-                className: "category-misc",
+                className: "category-misc", 
                 dorks: [
-                    "site:{domain} inurl:websocket",
-                    "site:{domain} inurl:socket.io",
-                    "site:{domain} intext:\"ws://\"",
-                    "site:{domain} intext:\"wss://\"",
-                    "site:{domain} \"WebSocket connection\"",
-                    "site:{domain} intext:\"mobile api\"",
-                    "site:{domain} inurl:api/mobile",
-                    "site:{domain} inurl:mobileapi",
-                    "site:{domain} inurl:app/api",
-                    "site:{domain} inurl:mobile/api",
-                    "site:{domain} inurl:api/app",
-                    "site:{domain} inurl:app/v1",
-                    "site:{domain} inurl:mobile/v1",
-                    "site:{domain} inurl:app.json",
-                    "site:{domain} inurl:api/ios",
-                    "site:{domain} inurl:api/android"
+                    "site:{domain} inurl:websocket", "site:{domain} inurl:socket.io", "site:{domain} intext:\"ws://\"", "site:{domain} intext:\"wss://\"", "site:{domain} \"WebSocket connection\"", "site:{domain} intext:\"mobile api\"", "site:{domain} inurl:api/mobile", "site:{domain} inurl:mobileapi", "site:{domain} inurl:app/api", "site:{domain} inurl:mobile/api", "site:{domain} inurl:api/app", "site:{domain} inurl:app/v1", "site:{domain} inurl:mobile/v1", "site:{domain} inurl:app.json", "site:{domain} inurl:api/ios", "site:{domain} inurl:api/android"
                 ]
             },
             {
@@ -1563,424 +609,368 @@
                 icon: "fas fa-random",
                 className: "category-injection",
                 dorks: [
-                    "inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain= | inurl:page= inurl:& site:{domain}",
-                    "inurl:proxy | inurl:fetch | inurl:process | inurl:pull | inurl:retrieve inurl:& site:{domain}",
-                    "inurl:go | inurl:redirect | inurl:return | inurl:src | inurl:source | inurl:u | inurl:uri | inurl:url inurl:& site:{domain}",
-                    "inurl:window | inurl:next | inurl:target | inurl:rurl | inurl:dest inurl:& site:{domain}",
-                    "inurl:api inurl:fetch inurl:& site:{domain}",
-                    "inurl:load= inurl:& site:{domain}",
-                    "inurl:file= inurl:& site:{domain}",
-                    "inurl:resource= inurl:& site:{domain}",
-                    "inurl:host= inurl:& site:{domain}",
-                    "inurl:preview= inurl:& site:{domain}",
-                    "inurl:view= inurl:& site:{domain}",
-                    "inurl:validate= inurl:& site:{domain}"
+                    "inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain= | inurl:page= inurl:& site:{domain}", "inurl:proxy | inurl:fetch | inurl:process | inurl:pull | inurl:retrieve inurl:& site:{domain}", "inurl:go | inurl:redirect | inurl:return | inurl:src | inurl:source | inurl:u | inurl:uri | inurl:url inurl:& site:{domain}", "inurl:window | inurl:next | inurl:target | inurl:rurl | inurl:dest inurl:& site:{domain}", "inurl:api inurl:fetch inurl:& site:{domain}", "inurl:load= inurl:& site:{domain}", "inurl:file= inurl:& site:{domain}", "inurl:resource= inurl:& site:{domain}", "inurl:host= inurl:& site:{domain}", "inurl:preview= inurl:& site:{domain}", "inurl:view= inurl:& site:{domain}", "inurl:validate= inurl:& site:{domain}"
                 ]
             },
             {
                 name: "XSS Vulnerable Params",
                 icon: "fas fa-code",
-                className: "category-injection",
+                className: "category-injection", 
                 dorks: [
-                    "inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:& site:{domain}",
-                    "inurl:msg= | inurl:text= | inurl:error= | inurl:title= | inurl:description= | inurl:content= inurl:& site:{domain}",
-                    "inurl:name= | inurl:message= | inurl:body= | inurl:feedback= inurl:& site:{domain}",
-                    "inurl:alert= inurl:& site:{domain}",
-                    "inurl:caption= inurl:& site:{domain}",
-                    "inurl:html= inurl:& site:{domain}",
-                    "inurl:comment= inurl:& site:{domain}",
-                    "inurl:subject= inurl:& site:{domain}",
-                    "inurl:callback= inurl:& site:{domain}",
-                    "inurl:redirect= inurl:& site:{domain}",
-                    "inurl:return= inurl:& site:{domain}",
-                    "inurl:next= inurl:& site:{domain}"
+                    "inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:& site:{domain}", "inurl:msg= | inurl:text= | inurl:error= | inurl:title= | inurl:description= | inurl:content= inurl:& site:{domain}", "inurl:name= | inurl:message= | inurl:body= | inurl:feedback= inurl:& site:{domain}", "inurl:alert= inurl:& site:{domain}", "inurl:caption= inurl:& site:{domain}", "inurl:html= inurl:& site:{domain}", "inurl:comment= inurl:& site:{domain}", "inurl:subject= inurl:& site:{domain}", "inurl:callback= inurl:& site:{domain}", "inurl:redirect= inurl:& site:{domain}", "inurl:return= inurl:& site:{domain}", "inurl:next= inurl:& site:{domain}"
                 ]
             },
             {
                 name: "SQL Injection Params",
                 icon: "fas fa-database",
-                className: "category-injection",
+                className: "category-injection", 
                 dorks: [
-                    "inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:& site:{domain}",
-                    "inurl:user= | inurl:uid= | inurl:article= | inurl:item= | inurl:page_id= inurl:& site:{domain}",
-                    "inurl:view= | inurl:product= | inurl:news= | inurl:file= | inurl:type= inurl:& site:{domain}",
-                    "inurl:tracking= inurl:& site:{domain}",
-                    "inurl:ref= inurl:& site:{domain}",
-                    "inurl:orderid= inurl:& site:{domain}",
-                    "inurl:cartid= inurl:& site:{domain}",
-                    "inurl:content= inurl:& site:{domain}",
-                    "inurl:section= inurl:& site:{domain}",
-                    "inurl:index.php?id= site:{domain}",
-                    "inurl:gallery.php?id= site:{domain}",
-                    "inurl:products.php?id= site:{domain}"
+                    "inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:& site:{domain}", "inurl:user= | inurl:uid= | inurl:article= | inurl:item= | inurl:page_id= inurl:& site:{domain}", "inurl:view= | inurl:product= | inurl:news= | inurl:file= | inurl:type= inurl:& site:{domain}", "inurl:tracking= inurl:& site:{domain}", "inurl:ref= inurl:& site:{domain}", "inurl:orderid= inurl:& site:{domain}", "inurl:cartid= inurl:& site:{domain}", "inurl:content= inurl:& site:{domain}", "inurl:section= inurl:& site:{domain}", "inurl:index.php?id= site:{domain}", "inurl:gallery.php?id= site:{domain}", "inurl:products.php?id= site:{domain}"
                 ]
             },
             {
                 name: "RCE Vulnerable Params",
                 icon: "fas fa-terminal",
-                className: "category-injection",
+                className: "category-injection", 
                 dorks: [
-                    "inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:& site:{domain}",
-                    "inurl:system= | inurl:os= | inurl:execute= | inurl:shell= | inurl:download= inurl:& site:{domain}",
-                    "inurl:eval= | inurl:command= | inurl:execute= | inurl:script= | inurl:payload= inurl:& site:{domain}",
-                    "inurl:bash= inurl:& site:{domain}",
-                    "inurl:nslookup= inurl:& site:{domain}",
-                    "inurl:phpinfo= inurl:& site:{domain}",
-                    "inurl:proc= inurl:& site:{domain}",
-                    "inurl:curl= inurl:& site:{domain}",
-                    "inurl:wget= inurl:& site:{domain}",
-                    "inurl:whoami= inurl:& site:{domain}",
-                    "inurl:nc= inurl:& site:{domain}"
+                    "inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:& site:{domain}", "inurl:system= | inurl:os= | inurl:execute= | inurl:shell= | inurl:download= inurl:& site:{domain}", "inurl:eval= | inurl:command= | inurl:execute= | inurl:script= | inurl:payload= inurl:& site:{domain}", "inurl:bash= inurl:& site:{domain}", "inurl:nslookup= inurl:& site:{domain}", "inurl:phpinfo= inurl:& site:{domain}", "inurl:proc= inurl:& site:{domain}", "inurl:curl= inurl:& site:{domain}", "inurl:wget= inurl:& site:{domain}", "inurl:whoami= inurl:& site:{domain}", "inurl:nc= inurl:& site:{domain}"
                 ]
             },
             {
                 name: "Template Injection",
                 icon: "fas fa-file-code",
-                className: "category-injection",
+                className: "category-injection", 
                 dorks: [
-                    "site:{domain} intext:\"{{'7'*7}}\"",
-                    "site:{domain} intext:\"${7*7}\"",
-                    "site:{domain} intext:\"{{7*7}}\"",
-                    "site:{domain} intext:\"<%= 7*7 %>\"",
-                    "site:{domain} intext:\"#{7*7}\"",
-                    "site:{domain} intext:\"{{''.constructor.constructor}}\"",
-                    "site:{domain} intext:\"{{config.items()}}\"",
-                    "site:{domain} intext:\"{{request}}\"",
-                    "site:{domain} intext:\"{{self}}\"",
-                    "site:{domain} intext:\"{{config}}\"",
-                    "site:{domain} intext:\"{{request.application.__globals__}}\"",
-                    "site:{domain} intext:\"{{request.__class__}}\"",
-                    "site:{domain} intext:\"${}\"",
-                    "site:{domain} intext:\"th:text\""
+                    "site:{domain} intext:\"{{'7'*7}}\"", "site:{domain} intext:\"${7*7}\"", "site:{domain} intext:\"{{7*7}}\"", "site:{domain} intext:\"<%= 7*7 %>\"", "site:{domain} intext:\"#{7*7}\"", "site:{domain} intext:\"{{''.constructor.constructor}}\"", "site:{domain} intext:\"{{config.items()}}\"", "site:{domain} intext:\"{{request}}\"", "site:{domain} intext:\"{{self}}\"", "site:{domain} intext:\"{{config}}\"", "site:{domain} intext:\"{{request.application.__globals__}}\"", "site:{domain} intext:\"{{request.__class__}}\"", "site:{domain} intext:\"${}\"", "site:{domain} intext:\"th:text\""
                 ]
             },
             {
                 name: "DevOps & Infrastructure",
                 icon: "fas fa-server",
-                className: "category-cloud",
+                className: "category-cloud", 
                 dorks: [
-                    "site:{domain} inurl:nagios",
-                    "site:{domain} inurl:zabbix",
-                    "site:{domain} inurl:prometheus",
-                    "site:{domain} inurl:grafana",
-                    "site:{domain} inurl:kibana",
-                    "site:{domain} inurl:splunk",
-                    "site:{domain} inurl:elasticsearch",
-                    "site:{domain} inurl:monitor",
-                    "site:{domain} inurl:jenkins",
-                    "site:{domain} inurl:travis",
-                    "site:{domain} inurl:circleci",
-                    "site:{domain} inurl:bamboo",
-                    "site:{domain} inurl:gitlab-ci",
-                    "site:{domain} inurl:drone",
-                    "site:{domain} intext:\"pipeline\"",
-                    "site:{domain} inurl:.git",
-                    "site:{domain} inurl:.git/HEAD",
-                    "site:{domain} inurl:.git/config",
-                    "site:{domain} intext:\"Index of /.git\"",
-                    "site:{domain} filetype:git",
-                    "site:{domain} inurl:kubernetes",
-                    "site:{domain} inurl:rancher",
-                    "site:{domain} inurl:docker",
-                    "site:{domain} inurl:swarm",
-                    "site:{domain} inurl:portainer",
-                    "site:{domain} inurl:sonarqube",
-                    "site:{domain} inurl:phabricator",
-                    "site:{domain} inurl:jira",
-                    "site:{domain} inurl:confluence"
+                    "site:{domain} inurl:nagios", "site:{domain} inurl:zabbix", "site:{domain} inurl:prometheus", "site:{domain} inurl:grafana", "site:{domain} inurl:kibana", "site:{domain} inurl:splunk", "site:{domain} inurl:elasticsearch", "site:{domain} inurl:monitor", "site:{domain} inurl:jenkins", "site:{domain} inurl:travis", "site:{domain} inurl:circleci", "site:{domain} inurl:bamboo", "site:{domain} inurl:gitlab-ci", "site:{domain} inurl:drone", "site:{domain} intext:\"pipeline\"", "site:{domain} inurl:.git", "site:{domain} inurl:.git/HEAD", "site:{domain} inurl:.git/config", "site:{domain} intext:\"Index of /.git\"", "site:{domain} filetype:git", "site:{domain} inurl:kubernetes", "site:{domain} inurl:rancher", "site:{domain} inurl:docker", "site:{domain} inurl:swarm", "site:{domain} inurl:portainer", "site:{domain} inurl:sonarqube", "site:{domain} inurl:phabricator", "site:{domain} inurl:jira", "site:{domain} inurl:confluence"
                 ]
             },
             {
                 name: "Authentication Bypasses",
-                icon: "fas fa-user-ninja",
-                className: "category-access",
+                icon: "fas fa-user-ninja", 
+                className: "category-access", 
                 dorks: [
-                    "site:{domain} inurl:debug=true",
-                    "site:{domain} inurl:test=true",
-                    "site:{domain} inurl:dev=true",
-                    "site:{domain} inurl:development=true",
-                    "site:{domain} inurl:bypass=true",
-                    "site:{domain} inurl:local=true",
-                    "site:{domain} inurl:staging=true",
-                    "site:{domain} inurl:backdoor",
-                    "site:{domain} inurl:auth=skip",
-                    "site:{domain} inurl:auth=false",
-                    "site:{domain} inurl:admin=true",
-                    "site:{domain} inurl:show_err=true",
-                    "site:{domain} inurl:debug_mode=true",
-                    "site:{domain} inurl:debug_level",
-                    "site:{domain} inurl:testing=true",
-                    "site:{domain} inurl:dev_mode=true",
-                    "site:{domain} inurl:access=all",
-                    "site:{domain} inurl:root=true",
-                    "site:{domain} inurl:demo_mode=true",
-                    "site:{domain} inurl:sample=true"
+                    "site:{domain} inurl:debug=true", "site:{domain} inurl:test=true", "site:{domain} inurl:dev=true", "site:{domain} inurl:development=true", "site:{domain} inurl:bypass=true", "site:{domain} inurl:local=true", "site:{domain} inurl:staging=true", "site:{domain} inurl:backdoor", "site:{domain} inurl:auth=skip", "site:{domain} inurl:auth=false", "site:{domain} inurl:admin=true", "site:{domain} inurl:show_err=true", "site:{domain} inurl:debug_mode=true", "site:{domain} inurl:debug_level", "site:{domain} inurl:testing=true", "site:{domain} inurl:dev_mode=true", "site:{domain} inurl:access=all", "site:{domain} inurl:root=true", "site:{domain} inurl:demo_mode=true", "site:{domain} inurl:sample=true"
                 ]
             },
             {
                 name: "Open Redirects",
                 icon: "fas fa-external-link-alt",
-                className: "category-access",
+                className: "category-access", 
                 dorks: [
-                    "site:{domain} inurl:redirect",
-                    "site:{domain} inurl:return",
-                    "site:{domain} inurl:r=http",
-                    "site:{domain} inurl:url=http",
-                    "site:{domain} inurl:next=http",
-                    "site:{domain} inurl:continue=http",
-                    "site:{domain} inurl:returnto=http",
-                    "site:{domain} inurl:goto=http",
-                    "site:{domain} inurl:link=http",
-                    "site:{domain} inurl:to=http",
-                    "site:{domain} inurl:out=http",
-                    "site:{domain} inurl:view=http",
-                    "site:{domain} inurl:location=http",
-                    "site:{domain} inurl:path=http",
-                    "site:{domain} inurl:uri=http"
+                    "site:{domain} inurl:redirect", "site:{domain} inurl:return", "site:{domain} inurl:r=http", "site:{domain} inurl:url=http", "site:{domain} inurl:next=http", "site:{domain} inurl:continue=http", "site:{domain} inurl:returnto=http", "site:{domain} inurl:goto=http", "site:{domain} inurl:link=http", "site:{domain} inurl:to=http", "site:{domain} inurl:out=http", "site:{domain} inurl:view=http", "site:{domain} inurl:location=http", "site:{domain} inurl:path=http", "site:{domain} inurl:uri=http"
                 ]
             },
             {
                 name: "Development & Hidden",
                 icon: "fas fa-code-branch",
-                className: "category-misc",
+                className: "category-misc", 
                 dorks: [
-                    "site:{domain} inurl:beta",
-                    "site:{domain} inurl:hidden",
-                    "site:{domain} inurl:unreleased",
-                    "site:{domain} inurl:upcoming",
-                    "site:{domain} inurl:draft",
-                    "site:{domain} inurl:private",
-                    "site:{domain} inurl:preview",
-                    "site:{domain} inurl:testing",
-                    "site:{domain} inurl:dev",
-                    "site:{domain} inurl:develop",
-                    "site:{domain} inurl:development",
-                    "site:{domain} inurl:stage",
-                    "site:{domain} inurl:staging",
-                    "site:{domain} inurl:preprod",
-                    "site:{domain} inurl:prototype",
-                    "site:{domain} inurl:internal",
-                    "site:{domain} inurl:test",
-                    "site:{domain} inurl:debug",
-                    "site:{domain} inurl:local",
-                    "site:{domain} inurl:sandbox"
+                    "site:{domain} inurl:beta", "site:{domain} inurl:hidden", "site:{domain} inurl:unreleased", "site:{domain} inurl:upcoming", "site:{domain} inurl:draft", "site:{domain} inurl:private", "site:{domain} inurl:preview", "site:{domain} inurl:testing", "site:{domain} inurl:dev", "site:{domain} inurl:develop", "site:{domain} inurl:development", "site:{domain} inurl:stage", "site:{domain} inurl:staging", "site:{domain} inurl:preprod", "site:{domain} inurl:prototype", "site:{domain} inurl:internal", "site:{domain} inurl:test", "site:{domain} inurl:debug", "site:{domain} inurl:local", "site:{domain} inurl:sandbox"
                 ]
             },
             {
                 name: "CMS & Framework",
-                icon: "fas fa-th",
-                className: "category-files",
+                icon: "fas fa-th", 
+                className: "category-files", 
                 dorks: [
-                    "site:{domain} inurl:wp-admin",
-                    "site:{domain} inurl:wp-content",
-                    "site:{domain} inurl:wp-includes",
-                    "site:{domain} inurl:wp-json",
-                    "site:{domain} inurl:/wp-admin/admin-ajax.php",
-                    "site:{domain} intext:\"Powered by\" & intext:Drupal & inurl:user",
-                    "site:{domain} inurl:*/joomla/login",
-                    "site:{domain} inurl:administrator/index.php",
-                    "site:{domain} inurl:typo3",
-                    "site:{domain} inurl:magento",
-                    "site:{domain} inurl:admin/Cms_Wysiwyg/directive/",
-                    "site:{domain} inurl:shopify",
-                    "site:{domain} inurl:laravel",
-                    "site:{domain} inurl:symfony",
-                    "site:{domain} inurl:django",
-                    "site:{domain} inurl:flask",
-                    "site:{domain} inurl:rails",
-                    "site:{domain} inurl:spring",
-                    "site:{domain} inurl:struts",
-                    "site:{domain} inurl:node_modules",
-                    "site:{domain} inurl:package.json",
-                    "site:{domain} inurl:composer.json"
+                    "site:{domain} inurl:wp-admin", "site:{domain} inurl:wp-content", "site:{domain} inurl:wp-includes", "site:{domain} inurl:wp-json", "site:{domain} inurl:/wp-admin/admin-ajax.php", "site:{domain} intext:\"Powered by\" & intext:Drupal & inurl:user", "site:{domain} inurl:*/joomla/login", "site:{domain} inurl:administrator/index.php", "site:{domain} inurl:typo3", "site:{domain} inurl:magento", "site:{domain} inurl:admin/Cms_Wysiwyg/directive/", "site:{domain} inurl:shopify", "site:{domain} inurl:laravel", "site:{domain} inurl:symfony", "site:{domain} inurl:django", "site:{domain} inurl:flask", "site:{domain} inurl:rails", "site:{domain} inurl:spring", "site:{domain} inurl:struts", "site:{domain} inurl:node_modules", "site:{domain} inurl:package.json", "site:{domain} inurl:composer.json"
                 ]
             },
             {
                 name: "Security Misconfigurations",
-                icon: "fas fa-shield-virus",
-                className: "category-auth",
+                icon: "fas fa-shield-virus", 
+                className: "category-auth", 
                 dorks: [
-                    "site:{domain} intext:\"Content-Security-Policy\"",
-                    "site:{domain} intext:\"unsafe-inline\"",
-                    "site:{domain} intext:\"unsafe-eval\"",
-                    "site:{domain} intext:\"script-src 'self'\"",
-                    "site:{domain} intext:\"style-src 'unsafe-inline'\"",
-                    "site:{domain} inurl:server-status",
-                    "site:{domain} inurl:status?full=true",
-                    "site:{domain} inurl:phpmyadmin",
-                    "site:{domain} inurl:adminer",
-                    "site:{domain} inurl:phpinfo",
-                    "site:{domain} inurl:info.php",
-                    "site:{domain} \"You have an error in your SQL syntax\"",
-                    "site:{domain} \"Warning: mysql_connect()\"",
-                    "site:{domain} \"Fatal error:\"",
-                    "site:{domain} \"Exception in thread \"main\"\"",
-                    "site:{domain} intext:\"syntax error at line\""
+                    "site:{domain} intext:\"Content-Security-Policy\"", "site:{domain} intext:\"unsafe-inline\"", "site:{domain} intext:\"unsafe-eval\"", "site:{domain} intext:\"script-src 'self'\"", "site:{domain} intext:\"style-src 'unsafe-inline'\"", "site:{domain} inurl:server-status", "site:{domain} inurl:status?full=true", "site:{domain} inurl:phpmyadmin", "site:{domain} inurl:adminer", "site:{domain} inurl:phpinfo", "site:{domain} inurl:info.php", "site:{domain} \"You have an error in your SQL syntax\"", "site:{domain} \"Warning: mysql_connect()\"", "site:{domain} \"Fatal error:\"", "site:{domain} \"Exception in thread \"main\"\"", "site:{domain} intext:\"syntax error at line\""
                 ]
             },
             {
                 name: "New & Advanced Dorks",
                 icon: "fas fa-rocket",
-                className: "category-misc",
+                className: "category-misc", 
                 dorks: [
-                    "site:{domain} inurl:api/graphql",
-                    "site:{domain} inurl:api/gql",
-                    "site:{domain} inurl:\".well-known/security.txt\"",
-                    "site:{domain} inurl:sourcemaps",
-                    "site:{domain} inurl:\".map\"",
-                    "site:{domain} inurl:swagger.json",
-                    "site:{domain} inurl:api-docs.json",
-                    "site:{domain} inurl:kubernetes.io/dockerconfigjson",
-                    "site:{domain} inurl:traefik",
-                    "site:{domain} inurl:terraform.tfstate",
-                    "site:{domain} inurl:\".git/refs/heads\"",
-                    "site:{domain} inurl:\".env.local\"",
-                    "site:{domain} intext:\"Web.config file\"",
-                    "site:{domain} inurl:composer.lock",
-                    "site:{domain} inurl:yarn.lock",
-                    "site:{domain} inurl:package-lock.json",
-                    "site:{domain} inurl:Pipfile.lock",
-                    "site:{domain} inurl:Gemfile.lock",
-                    "site:{domain} inurl:\"/.netlify/\"",
-                    "site:{domain} inurl:\".vscode/\"",
-                    "site:{domain} inurl:\".idea/\"",
-                    "site:{domain} inurl:\"/.circleci/\"",
-                    "site:{domain} inurl:\"/.github/\""
+                    "site:{domain} inurl:api/graphql", "site:{domain} inurl:api/gql", "site:{domain} inurl:\".well-known/security.txt\"", "site:{domain} inurl:sourcemaps", "site:{domain} inurl:\".map\"", "site:{domain} inurl:swagger.json", "site:{domain} inurl:api-docs.json", "site:{domain} inurl:kubernetes.io/dockerconfigjson", "site:{domain} inurl:traefik", "site:{domain} inurl:terraform.tfstate", "site:{domain} inurl:\".git/refs/heads\"", "site:{domain} inurl:\".env.local\"", "site:{domain} intext:\"Web.config file\"", "site:{domain} inurl:composer.lock", "site:{domain} inurl:yarn.lock", "site:{domain} inurl:package-lock.json", "site:{domain} inurl:Pipfile.lock", "site:{domain} inurl:Gemfile.lock", "site:{domain} inurl:\"/.netlify/\"", "site:{domain} inurl:\".vscode/\"", "site:{domain} inurl:\".idea/\"", "site:{domain} inurl:\"/.circleci/\"", "site:{domain} inurl:\"/.github/\""
+                ]
+            },
+            // --- NEW CATEGORIES START HERE ---
+            {
+                name: "Subdomain Takeover Probes",
+                icon: "fas fa-unlink", // Icon for broken links/takeovers
+                className: "category-exposure", // Fits exposure theme
+                dorks: [
+                    "site:*.{domain} \"this shop is currently unavailable\"", 
+                    "site:*.{domain} \"The specified bucket does not exist\"", 
+                    "site:*.{domain} \"NoSuchBucket\"", 
+                    "site:*.{domain} \"You're Almost There!\"", 
+                    "site:*.{domain} \"herokucdn.com/error-pages/no-such-app.html\"", 
+                    "site:*.{domain} \"There isn't a GitHub Pages site here.\"", 
+                    "site:*.{domain} \"Sorry, this shop is currently unavailable.\"", 
+                    "site:*.{domain} \"Fastly error: unknown domain\"", 
+                    "site:*.{domain} \"The page you are looking for does not exist.\"", 
+                    "site:*.{domain} \"If you're the owner of this website: Contact your hosting provider.\"", 
+                    "site:*.{domain} \"Repository not found\"", 
+                    "site:*.{domain} \"Whatever you were looking for doesn't currently exist at this address.\"", 
+                    "site:*.{domain} \"Oops. We couldn't find that page.\"", 
+                    "site:*.{domain} \"This Amazon S3 bucket is not configured as a website.\""
+                ]
+            },
+            {
+                name: "Exposed Tech Panels & Dashboards",
+                icon: "fas fa-window-restore", // Represents various UI panels
+                className: "category-access", // Accessing restricted areas
+                dorks: [
+                    "site:{domain} intitle:\"phpMyAdmin\" inurl:phpmyadmin",
+                    "site:{domain} intitle:\"Adminer\" inurl:adminer.php",
+                    "site:{domain} intitle:\"pgAdmin\" inurl:pgadmin",
+                    "site:{domain} intitle:\"RabbitMQ Management\"",
+                    "site:{domain} intitle:\"Flower\" inurl:flower", 
+                    "site:{domain} intitle:\"Portainer\" inurl:portainer",
+                    "site:{domain} intitle:\"Rancher\" inurl:rancher",
+                    "site:{domain} intitle:\"Kubernetes Dashboard\"",
+                    "site:{domain} intitle:\"Jenkins\" inurl:jenkins",
+                    "site:{domain} intitle:\"GitLab\" inurl:users/sign_in",
+                    "site:{domain} intitle:\"Nexus Repository Manager\"",
+                    "site:{domain} intitle:\"Apache Tomcat\"",
+                    "site:{domain} intitle:\"JBoss Management Console\"",
+                    "site:{domain} intitle:\"Webmin\" inurl:8000 OR inurl:10000",
+                    "site:{domain} intitle:\"cPanel\" inurl:2082 OR inurl:2083",
+                    "site:{domain} intitle:\"Plesk\" inurl:8443 OR inurl:8880"
+                ]
+            },
+            {
+                name: "Specific Vulnerability Footprints",
+                icon: "fas fa-bug-slash", // Icon for specific bugs/vulnerabilities
+                className: "category-injection", // Often leads to finding exploitable conditions
+                dorks: [
+                    "site:{domain} intext:\"Log4j\" OR intext:\"Log4Shell\"",
+                    "site:{domain} inurl:cgi-bin intext:\"Shellshock\"",
+                    "site:{domain} intext:\"Heartbleed test\"",
+                    "site:{domain} filetype:swf intext:\"Flash Player version\"",
+                    "site:{domain} intext:\"Apache Struts\" intitle:\"Welcome\"",
+                    "site:{domain} intext:\"Microsoft SharePoint\" inurl:_layouts/",
+                    "site:{domain} intext:\"BIG-IP\" intitle:\"BIG-IP F5\"",
+                    "site:{domain} inurl:wp-content/plugins/revslider/",
+                    "site:{domain} inurl:Telerik.Web.UI.WebResource.axd",
+                    "site:{domain} intext:\"vBulletin\" inurl:showthread.php",
+                    "site:{domain} intext:\"PHP Version\" intitle:\"phpinfo()\"",
+                    "site:{domain} intext:\"Pulse Connect Secure\" intitle:\"Login\"",
+                    "site:{domain} intext:\"Citrix Gateway\" intitle:\"Login\"",
+                    "site:{domain} intext:\"FortiGate\" OR intext:\"FortiClient\" intitle:\"Login\""
                 ]
             }
         ];
 
-        // Matrix background effect
+        // --- DOM Elements ---
+        const homeLink = document.getElementById('home-link');
+        const bugBountyLink = document.getElementById('bug-bounty-link');
+        const aboutLink = document.getElementById('about-link');
+        const bugBountySection = document.getElementById('bug-bounty-section');
+        const aboutSection = document.getElementById('about-section');
+        const domainInputEl = document.getElementById('domain-input');
+        const loadingEl = document.getElementById('loading');
+        const resultsEl = document.getElementById('results');
+        const resultsContentEl = document.getElementById('results-content');
+        const domainDisplayEl = document.getElementById('domain-display');
+        const matrixBackgroundEl = document.getElementById('matrix-background');
+        const toastNotificationEl = document.getElementById('toast-notification');
+
+        // --- Toast Notification Function ---
+        let toastTimeout;
+        function showToast(message, duration = 3000) {
+            toastNotificationEl.textContent = message;
+            toastNotificationEl.classList.remove('opacity-0', 'pointer-events-none');
+            toastNotificationEl.classList.add('opacity-100');
+
+            clearTimeout(toastTimeout); // Clear existing timeout if any
+            toastTimeout = setTimeout(() => {
+                toastNotificationEl.classList.remove('opacity-100');
+                toastNotificationEl.classList.add('opacity-0', 'pointer-events-none');
+            }, duration);
+        }
+
+        // --- Matrix Background Effect ---
         function createMatrixBackground() {
-            const container = document.getElementById('matrix-background');
-            const containerWidth = container.offsetWidth;
+            if (!matrixBackgroundEl) return;
+            const containerWidth = matrixBackgroundEl.offsetWidth;
+            // Clear existing lines if any (e.g., on resize, though not implemented here)
+            matrixBackgroundEl.innerHTML = ''; 
             
-            for (let i = 0; i < 20; i++) {
+            const numberOfLines = Math.min(Math.floor(containerWidth / 30), 30); // Adjust density based on width, max 30 lines
+
+            for (let i = 0; i < numberOfLines; i++) {
                 const line = document.createElement('div');
-                line.className = 'matrix-line';
+                line.className = 'matrix-line'; // Uses style from <style>
                 line.style.left = Math.random() * containerWidth + 'px';
-                line.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                line.style.height = Math.random() * 100 + 50 + '%';
-                container.appendChild(line);
+                line.style.animationDuration = (Math.random() * 2 + 1.5) + 's'; // Slightly slower
+                line.style.height = (Math.random() * 100 + 70) + '%'; // Longer lines
+                line.style.animationDelay = (Math.random() * 1) + 's'; // Staggered start
+                matrixBackgroundEl.appendChild(line);
             }
         }
 
-        // Navigation functionality
-        document.getElementById('home-link').addEventListener('click', function(e) {
+        // --- Navigation ---
+        function setActiveNav(activeId) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('text-neon-cyan', 'font-semibold', 'after:w-full');
+                link.classList.add('text-gray-200');
+                if (link.id === activeId) {
+                    link.classList.add('text-neon-cyan', 'font-semibold', 'after:w-full');
+                    link.classList.remove('text-gray-200');
+                }
+            });
+        }
+
+        homeLink.addEventListener('click', function(e) {
             e.preventDefault();
             setActiveNav('home-link');
-            document.getElementById('bug-bounty-section').style.display = 'block';
-            document.getElementById('about-section').style.display = 'none';
+            bugBountySection.style.display = 'block';
+            aboutSection.style.display = 'none';
+            aboutSection.classList.remove('fade-in-animation');
         });
         
-        document.getElementById('bug-bounty-link').addEventListener('click', function(e) {
+        bugBountyLink.addEventListener('click', function(e) {
             e.preventDefault();
             setActiveNav('bug-bounty-link');
-            document.getElementById('bug-bounty-section').style.display = 'block';
-            document.getElementById('about-section').style.display = 'none';
+            bugBountySection.style.display = 'block';
+            aboutSection.style.display = 'none';
+            aboutSection.classList.remove('fade-in-animation');
         });
         
-        document.getElementById('about-link').addEventListener('click', function(e) {
+        aboutLink.addEventListener('click', function(e) {
             e.preventDefault();
             setActiveNav('about-link');
-            document.getElementById('bug-bounty-section').style.display = 'none';
-            document.getElementById('about-section').style.display = 'block';
+            bugBountySection.style.display = 'none';
+            aboutSection.style.display = 'block';
+            aboutSection.classList.add('fade-in-animation');
         });
-        
-        function setActiveNav(id) {
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            document.getElementById(id).classList.add('active');
-        }
-        
+
+        // --- Domain Validation ---
         function isValidDomain(domain) {
-            const domainRegex = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}\/?$/i;
+            // Regex to match a domain name, optionally with http(s):// and optional path
+            // It allows for subdomains.
+            const domainRegex = /^(https?:\/\/)?([a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/i;
             return domainRegex.test(domain);
         }
-        
-        function generateBugBountyDorks() {
-            const domainInput = document.getElementById('domain-input').value.trim();
+
+        // --- Dork Generation ---
+        // Make sure this function is globally accessible if called by inline onclick
+        window.generateBugBountyDorks = function() {
+            const domainInput = domainInputEl.value.trim();
             if (!isValidDomain(domainInput)) {
-                alert('Please enter a valid domain (e.g., example.com)');
+                showToast('Please enter a valid domain (e.g., example.com or https://example.com)');
                 return;
             }
             
-            const domain = domainInput.replace(/https?:\/\//, '').replace(/\/.*$/, '');
-            const resultsContent = document.getElementById('results-content');
-            resultsContent.innerHTML = '';
-            document.getElementById('domain-display').textContent = domain;
+            // Extract the base domain (e.g., example.com from http://www.example.com/path)
+            let domain = domainInput.replace(/^(https?:\/\/)?(www\.)?/, ''); // Remove http(s):// and www.
+            domain = domain.split('/')[0]; // Remove any path
+
+            resultsContentEl.innerHTML = ''; // Clear previous results
+            domainDisplayEl.textContent = domain;
             
-            // Show loading animation
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
+            loadingEl.style.display = 'block';
+            resultsEl.style.display = 'none';
             
             // Simulate loading time for better UX
             setTimeout(() => {
-                // Hide loading and show results
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('results').style.display = 'block';
+                loadingEl.style.display = 'none';
+                resultsEl.style.display = 'block';
                 
-                // Generate dorks for each category
                 bugBountyCategories.forEach(category => {
                     const categoryContainer = document.createElement('div');
-                    categoryContainer.className = `category-container ${category.className}`;
+                    // Apply category-specific class for CSS variable scoping (used for scrollbar, indicator color)
+                    categoryContainer.className = `category-container ${category.className} bg-darker-bg/70 backdrop-blur-sm rounded-md p-4 shadow-lg border border-neon-cyan/10 relative transition-all duration-300 hover:shadow-neon-cyan/20 hover:-translate-y-1`;
                     
-                    // Category indicator
                     const indicator = document.createElement('div');
-                    indicator.className = 'category-indicator';
+                    indicator.className = 'category-indicator'; // Styled by CSS
                     categoryContainer.appendChild(indicator);
                     
-                    // Add dork count badge
                     const dorkCount = document.createElement('div');
-                    dorkCount.className = 'dork-count';
+                    dorkCount.className = 'dork-count absolute top-3 right-3 text-xs bg-black/50 px-2 py-0.5 rounded-full font-share-tech-mono border border-current'; // 'border-current' will use category color
                     dorkCount.textContent = `${category.dorks.length} dorks`;
+                    dorkCount.style.color = `var(--category-color, var(--neon-cyan))`; // Apply color directly
                     categoryContainer.appendChild(dorkCount);
                     
-                    // Category title with icon
                     const categoryTitle = document.createElement('h4');
-                    categoryTitle.className = 'category-title';
-                    
+                    categoryTitle.className = 'category-title font-rajdhani text-lg mb-3 font-medium flex items-center gap-3 relative pl-4'; // Tailwind classes
+                    categoryTitle.style.color = `var(--category-color, var(--neon-cyan))`; // Apply color directly
+                    categoryTitle.style.textShadow = `0 0 5px rgba(var(--category-shadow, 0,255,255), 0.5)`;
+
+
                     const categoryBadge = document.createElement('div');
-                    categoryBadge.className = 'category-badge';
+                    categoryBadge.className = 'category-badge-animated w-8 h-8 rounded-full flex items-center justify-center relative'; // Tailwind classes + custom animation class
+                    
                     const badgeIcon = document.createElement('i');
-                    badgeIcon.className = category.icon;
+                    badgeIcon.className = `${category.icon} text-base`; // Tailwind class for icon size
+                    badgeIcon.style.color = `var(--category-color, var(--neon-cyan))`; // Apply color directly
                     categoryBadge.appendChild(badgeIcon);
                     
                     categoryTitle.appendChild(categoryBadge);
                     categoryTitle.appendChild(document.createTextNode(category.name));
                     categoryContainer.appendChild(categoryTitle);
                     
-                    // Dork links
-                    const dorkLinks = document.createElement('div');
-                    dorkLinks.className = 'dork-links';
+                    const dorkLinksContainer = document.createElement('div');
+                    dorkLinksContainer.className = 'dork-links-custom-scrollbar dork-links flex flex-col gap-2 max-h-52 overflow-y-auto pr-1'; // Tailwind classes + custom scrollbar
                     
                     category.dorks.forEach(dork => {
                         const query = dork.replace(/{domain}/g, domain);
                         const link = document.createElement('a');
                         
-                        if (query.startsWith("https://")) {
+                        if (query.startsWith("https://")) { // If dork is already a full URL
                             link.href = query;
-                        } else {
+                        } else { // Otherwise, construct Google search URL
                             link.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
                         }
                         
                         link.textContent = query;
-                        link.className = 'dork-link';
+                        // MODIFIED: Removed whitespace-nowrap, text-ellipsis, overflow-hidden. Added break-all for better wrapping. Adjusted padding.
+                        link.className = 'dork-link block text-gray-300 p-2.5 bg-black/40 rounded text-xs font-mono border-l-2 transition-all duration-300 hover:pl-3.5 break-all'; 
+                        link.style.borderColor = `rgba(var(--category-shadow, 0,255,255), 0.3)`;
+                        link.addEventListener('mouseover', () => {
+                            link.style.backgroundColor = `rgba(var(--category-shadow, 0,255,255), 0.1)`;
+                            link.style.color = `var(--category-color, var(--neon-cyan))`;
+                            link.style.borderColor = `var(--category-color, var(--neon-cyan))`;
+                        });
+                        link.addEventListener('mouseout', () => {
+                            link.style.backgroundColor = `rgba(0,0,0,0.4)`;
+                            link.style.color = `var(--text-color)`;
+                            link.style.borderColor = `rgba(var(--category-shadow, 0,255,255), 0.3)`;
+                        });
+
                         link.target = '_blank';
-                        dorkLinks.appendChild(link);
+                        dorkLinksContainer.appendChild(link);
                     });
                     
-                    categoryContainer.appendChild(dorkLinks);
-                    resultsContent.appendChild(categoryContainer);
+                    categoryContainer.appendChild(dorkLinksContainer);
+                    resultsContentEl.appendChild(categoryContainer);
                 });
-            }, 1200);
+            }, 1200); // Simulate API call or processing time
         }
-        
-        // Initialize matrix effect when page loads
+
+        // --- Initial Setup ---
         window.onload = function() {
             createMatrixBackground();
+            setActiveNav('home-link'); // Set home as active on load
+            // Ensure bug bounty section is visible and about is hidden by default
+            bugBountySection.style.display = 'block';
+            aboutSection.style.display = 'none';
         };
+
+        // Optional: Recreate matrix on window resize for better responsiveness
+        let resizeTimeout;
+        window.onresize = function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(createMatrixBackground, 250); // Debounce resize
+        };
+
     </script>
 </body>
 </html>
